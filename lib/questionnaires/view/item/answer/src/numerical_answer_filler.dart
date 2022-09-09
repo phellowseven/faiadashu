@@ -15,8 +15,8 @@ class NumericalAnswerFiller extends QuestionnaireAnswerFiller {
   State<NumericalAnswerFiller> createState() => _NumericalAnswerState();
 }
 
-class _NumericalAnswerState extends QuestionnaireAnswerFillerState<Quantity,
-    NumericalAnswerFiller, NumericalAnswerModel> {
+class _NumericalAnswerState
+    extends QuestionnaireAnswerFillerState<Quantity, NumericalAnswerFiller, NumericalAnswerModel> {
   final TextEditingController _editingController = TextEditingController();
 
   // This is being used like a controller
@@ -24,9 +24,8 @@ class _NumericalAnswerState extends QuestionnaireAnswerFillerState<Quantity,
 
   @override
   void postInitState() {
-    final initialValue = (answerModel.value?.value != null)
-        ? answerModel.value!.value!.format(locale)
-        : '';
+    final initialValue =
+        (answerModel.value?.value != null) ? answerModel.value!.value!.format(locale) : '';
 
     _editingController.value = TextEditingValue(
       text: initialValue,
@@ -66,15 +65,10 @@ class _SliderInputControl extends AnswerInputControl<NumericalAnswerModel> {
   final ValueNotifier<double> sliderValueDuringChange;
 
   const _SliderInputControl(
-    NumericalAnswerModel answerModel, {
+    super.answerModel, {
     required this.sliderValueDuringChange,
-    FocusNode? focusNode,
-    Key? key,
-  }) : super(
-          answerModel,
-          focusNode: focusNode,
-          key: key,
-        );
+    super.focusNode,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -82,8 +76,7 @@ class _SliderInputControl extends AnswerInputControl<NumericalAnswerModel> {
     final lowerSliderLabel = answerModel.lowerSliderLabel;
     final upperSliderLabel = answerModel.upperSliderLabel;
 
-    final hasSliderLabels =
-        lowerSliderLabel != null || upperSliderLabel != null;
+    final hasSliderLabels = lowerSliderLabel != null || upperSliderLabel != null;
 
     return Column(
       children: [
@@ -107,8 +100,7 @@ class _SliderInputControl extends AnswerInputControl<NumericalAnswerModel> {
                 onChangeEnd: answerModel.isControlEnabled
                     ? (sliderValue) {
                         sliderValueDuringChange.value = sliderValue;
-                        answerModel.value =
-                            answerModel.copyWithValue(Decimal(sliderValue));
+                        answerModel.value = answerModel.copyWithValue(Decimal(sliderValue));
                       }
                     : null,
                 onChangeStart: (_) {
@@ -151,23 +143,15 @@ class _SliderInputControl extends AnswerInputControl<NumericalAnswerModel> {
   }
 }
 
-class _NumberFieldInputControl
-    extends AnswerInputControl<NumericalAnswerModel> {
+class _NumberFieldInputControl extends AnswerInputControl<NumericalAnswerModel> {
   final TextEditingController editingController;
   final TextInputFormatter numberInputFormatter;
 
   _NumberFieldInputControl(
-    NumericalAnswerModel answerModel, {
+    super.answerModel, {
     required this.editingController,
-    FocusNode? focusNode,
-    Key? key,
-  })  : numberInputFormatter =
-            NumericalTextInputFormatter(answerModel.numberFormat),
-        super(
-          answerModel,
-          focusNode: focusNode,
-          key: key,
-        );
+    super.focusNode,
+  }) : numberInputFormatter = NumericalTextInputFormatter(answerModel.numberFormat);
 
   @override
   Widget build(BuildContext context) {
@@ -176,9 +160,8 @@ class _NumberFieldInputControl
 
     // Calculated items need an automated entry into the text field.
     if (itemModel.isCalculated) {
-      final currentValue = (answerModel.value?.value != null)
-          ? answerModel.value!.value!.format(locale)
-          : '';
+      final currentValue =
+          (answerModel.value?.value != null) ? answerModel.value!.value!.format(locale) : '';
 
       editingController.value = TextEditingValue(
         text: currentValue,
@@ -206,12 +189,12 @@ class _NumberFieldInputControl
                 textAlign: TextAlign.end,
                 decoration: InputDecoration(
                   errorText: answerModel.displayErrorText,
-                  errorStyle: (itemModel
-                          .isCalculated) // Force display of error text on calculated item
-                      ? TextStyle(
-                          color: Theme.of(context).errorColor,
-                        )
-                      : null,
+                  errorStyle:
+                      (itemModel.isCalculated) // Force display of error text on calculated item
+                          ? TextStyle(
+                              color: Theme.of(context).errorColor,
+                            )
+                          : null,
                   hintText: answerModel.entryFormat,
                   prefixIcon: itemModel.isCalculated
                       ? Icon(
@@ -240,9 +223,8 @@ class _NumberFieldInputControl
                     : (inputValue) {
                         return answerModel.validateInput(inputValue);
                       },
-                autovalidateMode: (itemModel.isCalculated)
-                    ? AutovalidateMode.disabled
-                    : AutovalidateMode.always,
+                autovalidateMode:
+                    (itemModel.isCalculated) ? AutovalidateMode.disabled : AutovalidateMode.always,
                 onChanged: (content) {
                   answerModel.value = answerModel.copyWithTextInput(content);
                 },
@@ -257,8 +239,8 @@ class _NumberFieldInputControl
 
 class _UnitDropDown extends AnswerInputControl<NumericalAnswerModel> {
   const _UnitDropDown(
-    NumericalAnswerModel answerModel,
-  ) : super(answerModel);
+    super.answerModel,
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -288,8 +270,7 @@ class _UnitDropDown extends AnswerInputControl<NumericalAnswerModel> {
                     : null,
                 items: [
                   const DropdownMenuItem<String>(child: NullDashText()),
-                  ...answerModel.unitChoices
-                      .map<DropdownMenuItem<String>>((Coding value) {
+                  ...answerModel.unitChoices.map<DropdownMenuItem<String>>((Coding value) {
                     return DropdownMenuItem<String>(
                       value: answerModel.keyForUnitChoice(value),
                       child: Text(value.localizedDisplay(locale)),

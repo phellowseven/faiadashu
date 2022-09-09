@@ -1,7 +1,6 @@
 import 'package:faiadashu/fhir_types/fhir_types.dart';
 import 'package:faiadashu/questionnaires/questionnaires.dart';
-import 'package:fhir/r4.dart'
-    show Date, FhirDateTime, QuestionnaireItemType, Time;
+import 'package:fhir/r4.dart' show Date, FhirDateTime, QuestionnaireItemType, Time;
 import 'package:flutter/material.dart';
 
 class DateTimeAnswerFiller extends QuestionnaireAnswerFiller {
@@ -32,19 +31,15 @@ class _DateTimeAnswerState extends QuestionnaireAnswerFillerState<FhirDateTime,
 
 class _DateTimeInputControl extends AnswerInputControl<DateTimeAnswerModel> {
   const _DateTimeInputControl(
-    DateTimeAnswerModel answerModel, {
-    FocusNode? focusNode,
-  }) : super(
-          answerModel,
-          focusNode: focusNode,
-        );
+    super.answerModel, {
+    super.focusNode,
+  });
 
   @override
   Widget build(BuildContext context) {
     final itemType = qi.type;
 
-    final initialDate =
-        (itemType != QuestionnaireItemType.time) ? answerModel.value : null;
+    final initialDate = (itemType != QuestionnaireItemType.time) ? answerModel.value : null;
 
     final pickerType = ArgumentError.checkNotNull(
       const {
@@ -67,8 +62,7 @@ class _DateTimeInputControl extends AnswerInputControl<DateTimeAnswerModel> {
         pickerType: pickerType,
         decoration: InputDecoration(
           errorText: answerModel.displayErrorText,
-          errorStyle: (itemModel
-                  .isCalculated) // Force display of error text on calculated item
+          errorStyle: (itemModel.isCalculated) // Force display of error text on calculated item
               ? TextStyle(
                   color: Theme.of(context).errorColor,
                 )

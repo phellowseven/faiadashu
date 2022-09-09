@@ -17,8 +17,8 @@ class Base64Image extends StatefulWidget {
     this.semanticLabel,
     this.width,
     this.height,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   State<StatefulWidget> createState() => _Base64ImageState();
@@ -37,9 +37,8 @@ class _Base64ImageState extends State<Base64Image> {
       width: widget.width,
       height: widget.height,
       semanticLabel: widget.semanticLabel,
-      key: (key != null && key is ValueKey)
-          ? ValueKey<String>('${key.value.toString()}-img')
-          : null,
+      key:
+          (key != null && key is ValueKey) ? ValueKey<String>('${key.value.toString()}-img') : null,
     );
   }
 

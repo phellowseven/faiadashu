@@ -5,7 +5,7 @@ import 'fdash_localizations.g.dart';
 
 /// The translations for English (`en`).
 class FDashLocalizationsEn extends FDashLocalizations {
-  FDashLocalizationsEn([String locale = 'en']) : super(locale);
+  FDashLocalizationsEn([super.locale = 'en']);
 
   @override
   String get validatorRequiredItem => 'This question needs to be completed.';
@@ -103,8 +103,7 @@ class FDashLocalizationsEn extends FDashLocalizations {
   }
 
   @override
-  String get dataAbsentReasonAskedDeclinedInputLabel =>
-      'I choose not to answer.';
+  String get dataAbsentReasonAskedDeclinedInputLabel => 'I choose not to answer.';
 
   @override
   String get dataAbsentReasonAskedDeclinedOutput => 'Declined to answer';

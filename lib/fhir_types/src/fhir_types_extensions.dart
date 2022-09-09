@@ -12,8 +12,7 @@ extension FDashTimeExtension on Time {
       return defaultText;
     }
 
-    return DateFormat.jm(localeCode)
-        .format(DateTime.parse('19700101T${toString()}'));
+    return DateFormat.jm(localeCode).format(DateTime.parse('19700101T${toString()}'));
   }
 }
 
@@ -53,19 +52,13 @@ extension FDashDateTimeExtension on FhirDateTime {
             : DateFormat('y年M月d日', localeCode).add_jm();
         break;
       case DateTimePrecision.YYYY:
-        dateFormat = (!japanese)
-            ? DateFormat.y(localeCode)
-            : DateFormat('y年', localeCode);
+        dateFormat = (!japanese) ? DateFormat.y(localeCode) : DateFormat('y年', localeCode);
         break;
       case DateTimePrecision.YYYYMM:
-        dateFormat = (!japanese)
-            ? DateFormat.yM(localeCode)
-            : DateFormat('y年M月', localeCode);
+        dateFormat = (!japanese) ? DateFormat.yM(localeCode) : DateFormat('y年M月', localeCode);
         break;
       case DateTimePrecision.YYYYMMDD:
-        dateFormat = (!japanese)
-            ? DateFormat.yMd(localeCode)
-            : DateFormat('y年M月d日', localeCode);
+        dateFormat = (!japanese) ? DateFormat.yMd(localeCode) : DateFormat('y年M月d日', localeCode);
         break;
     }
 
@@ -149,20 +142,17 @@ extension FDashCodingExtension on Coding {
     // TODO: Carve this out to be used in other places (titles).
     final translationExtension = displayElement?.extension_?.firstWhereOrNull(
       (transExt) =>
-          transExt.url ==
-              FhirUri('http://hl7.org/fhir/StructureDefinition/translation') &&
+          transExt.url == FhirUri('http://hl7.org/fhir/StructureDefinition/translation') &&
           transExt.extension_?.firstWhereOrNull(
                 (ext) =>
-                    (ext.url == FhirUri('lang')) &&
-                    (ext.valueCode?.value == locale.languageCode),
+                    (ext.url == FhirUri('lang')) && (ext.valueCode?.value == locale.languageCode),
               ) !=
               null,
     );
 
     if (translationExtension != null) {
-      final contentString = translationExtension.extension_
-          ?.extensionOrNull('content')
-          ?.valueString;
+      final contentString =
+          translationExtension.extension_?.extensionOrNull('content')?.valueString;
 
       return ArgumentError.checkNotNull(contentString);
     }
@@ -183,17 +173,12 @@ extension FDashListCodingExtension on List<Coding> {
 extension FDashCodeableConceptExtension on CodeableConcept {
   /// Localized access to display value
   String localizedDisplay(Locale locale) {
-    return coding?.firstOrNull?.display ??
-        text ??
-        coding?.firstOrNull?.code?.value ??
-        toString();
+    return coding?.firstOrNull?.display ?? text ?? coding?.firstOrNull?.code?.value ?? toString();
   }
 
   bool containsCoding(String? system, String code) {
     return coding?.firstWhereOrNull(
-          (_coding) =>
-              (_coding.code?.toString() == code) &&
-              (_coding.system?.toString() == system),
+          (coding) => (coding.code?.toString() == code) && (coding.system?.toString() == system),
         ) !=
         null;
   }

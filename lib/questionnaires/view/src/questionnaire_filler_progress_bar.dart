@@ -13,15 +13,14 @@ class QuestionnaireFillerProgressBar extends StatelessWidget {
     this.height = defaultHeight,
     this.answeredColor,
     this.unansweredColor,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
     return AnimatedBuilder(
-      animation: QuestionnaireResponseFiller.of(context)
-          .questionnaireResponseModel
-          .answeredChangeNotifier,
+      animation:
+          QuestionnaireResponseFiller.of(context).questionnaireResponseModel.answeredChangeNotifier,
       builder: (context, _) {
         return Row(
           children: QuestionnaireResponseFiller.of(context)
@@ -37,8 +36,7 @@ class QuestionnaireFillerProgressBar extends StatelessWidget {
                   )
                 : Container(
                     foregroundDecoration: BoxDecoration(
-                      border:
-                          Border.all(color: theme.disabledColor, width: 0.5),
+                      border: Border.all(color: theme.disabledColor, width: 0.5),
                     ),
                     height: height,
                     color: unansweredColor,

@@ -24,18 +24,17 @@ class QuestionnaireResponseFiller extends StatefulWidget {
   final FhirResourceProvider fhirResourceProvider;
   final LaunchContext launchContext;
 
-  Future<QuestionnaireResponseModel>
-      _createQuestionnaireResponseModel() async =>
-          QuestionnaireResponseModel.fromFhirResourceBundle(
-            locale: locale,
-            aggregators: aggregators,
-            fhirResourceProvider: fhirResourceProvider,
-            launchContext: launchContext,
-            questionnaireModelDefaults: questionnaireModelDefaults,
-          );
+  Future<QuestionnaireResponseModel> _createQuestionnaireResponseModel() async =>
+      QuestionnaireResponseModel.fromFhirResourceBundle(
+        locale: locale,
+        aggregators: aggregators,
+        fhirResourceProvider: fhirResourceProvider,
+        launchContext: launchContext,
+        questionnaireModelDefaults: questionnaireModelDefaults,
+      );
 
   const QuestionnaireResponseFiller({
-    Key? key,
+    super.key,
     required this.locale,
     required this.builder,
     required this.fhirResourceProvider,
@@ -45,11 +44,10 @@ class QuestionnaireResponseFiller extends StatefulWidget {
     this.onLinkTap,
     this.questionnaireTheme = const QuestionnaireThemeData(),
     this.questionnaireModelDefaults = const QuestionnaireModelDefaults(),
-  }) : super(key: key);
+  });
 
   static QuestionnaireFillerData of(BuildContext context) {
-    final result =
-        context.dependOnInheritedWidgetOfExactType<QuestionnaireFillerData>();
+    final result = context.dependOnInheritedWidgetOfExactType<QuestionnaireFillerData>();
     assert(result != null, 'No QuestionnaireFillerData found in context');
 
     return result!;
@@ -57,12 +55,10 @@ class QuestionnaireResponseFiller extends StatefulWidget {
 
   @override
   // ignore: library_private_types_in_public_api
-  _QuestionnaireResponseFillerState createState() =>
-      _QuestionnaireResponseFillerState();
+  _QuestionnaireResponseFillerState createState() => _QuestionnaireResponseFillerState();
 }
 
-class _QuestionnaireResponseFillerState
-    extends State<QuestionnaireResponseFiller> {
+class _QuestionnaireResponseFillerState extends State<QuestionnaireResponseFiller> {
   static final _logger = Logger(_QuestionnaireResponseFillerState);
 
   late final Future<QuestionnaireResponseModel> builderFuture;
@@ -100,8 +96,7 @@ class _QuestionnaireResponseFillerState
   }
 
   void _handleQuestionnaireResponseModelStructuralChange() {
-    _logger
-        .debug('Response model structure has changed. Updating filler views.');
+    _logger.debug('Response model structure has changed. Updating filler views.');
 
     if (mounted) {
       // This operation is very expensive. Make sure the code only reaches it
@@ -157,12 +152,10 @@ class _QuestionnaireResponseFillerState
               _questionnaireResponseModel = snapshot.data;
 
               // OPTIMIZE: There has got to be a more elegant way? Goal is to register the listener exactly once, after the future has completed.
-              if (_handleQuestionnaireResponseModelChangeListenerFunction ==
-                  null) {
+              if (_handleQuestionnaireResponseModelChangeListenerFunction == null) {
                 _handleQuestionnaireResponseModelChangeListenerFunction =
                     () => _handleQuestionnaireResponseModelStructuralChange();
-                _questionnaireResponseModel?.structuralChangeNotifier
-                    .addListener(
+                _questionnaireResponseModel?.structuralChangeNotifier.addListener(
                   _handleQuestionnaireResponseModelChangeListenerFunction!,
                 );
 
@@ -205,7 +198,6 @@ class QuestionnaireFillerData extends InheritedWidget {
 
   QuestionnaireFillerData._(
     this.questionnaireResponseModel, {
-    Key? key,
     required this.locale,
     this.onDataAvailable,
     this.onLinkTap,
@@ -217,7 +209,7 @@ class QuestionnaireFillerData extends InheritedWidget {
           questionnaireResponseModel.orderedFillerItemModels().length,
           null,
         ),
-        super(key: key, child: Builder(builder: builder)) {
+        super(child: Builder(builder: builder)) {
     _logger.trace('constructor _');
     onDataAvailable?.call(questionnaireResponseModel);
   }

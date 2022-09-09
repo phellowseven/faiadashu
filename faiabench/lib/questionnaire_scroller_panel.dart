@@ -11,25 +11,22 @@ class QuestionnaireScrollerPanel extends ConsumerStatefulWidget {
   final Questionnaire questionnaire;
   final QuestionnaireResponse? questionnaireResponse;
   final LaunchContext launchContext;
-  final StateNotifierProvider<FhirResourceNotifier, AsyncValue<FhirResource>>
-      fillerOutputProvider;
+  final StateNotifierProvider<FhirResourceNotifier, AsyncValue<FhirResource>> fillerOutputProvider;
 
   const QuestionnaireScrollerPanel(
     this.questionnaire,
     this.questionnaireResponse,
     this.launchContext,
     this.fillerOutputProvider, {
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   // ignore: library_private_types_in_public_api
-  _QuestionnaireScrollerPanelState createState() =>
-      _QuestionnaireScrollerPanelState();
+  _QuestionnaireScrollerPanelState createState() => _QuestionnaireScrollerPanelState();
 }
 
-class _QuestionnaireScrollerPanelState
-    extends ConsumerState<QuestionnaireScrollerPanel> {
+class _QuestionnaireScrollerPanelState extends ConsumerState<QuestionnaireScrollerPanel> {
   late final FhirResourceProvider _fhirResourceProvider;
 
   @override

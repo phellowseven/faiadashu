@@ -9,7 +9,7 @@ import 'package:flutter/services.dart';
 /// "Drawer" which contains the narrative for a questionnaire.
 /// To be used with the drawer or endDrawer parameter of a [Scaffold].
 class NarrativeDrawer extends StatefulWidget {
-  const NarrativeDrawer({Key? key}) : super(key: key);
+  const NarrativeDrawer({super.key});
 
   @override
   State<StatefulWidget> createState() => _NarrativeDrawerState();
@@ -65,8 +65,7 @@ class _NarrativeDrawerState extends State<NarrativeDrawer> {
                             text: _drawerMode
                                 ? const JsonEncoder.withIndent('    ').convert(
                                     QuestionnaireResponseFiller.of(context)
-                                        .aggregator<
-                                            QuestionnaireResponseAggregator>()
+                                        .aggregator<QuestionnaireResponseAggregator>()
                                         .aggregate(containPatient: true)
                                         ?.toJson(),
                                   )

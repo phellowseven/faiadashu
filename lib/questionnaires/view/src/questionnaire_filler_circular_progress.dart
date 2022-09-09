@@ -2,8 +2,7 @@ import 'dart:math';
 
 import 'package:collection/collection.dart';
 import 'package:faiadashu/questionnaires/model/model.dart';
-import 'package:faiadashu/questionnaires/view/view.dart'
-    show QuestionnaireResponseFiller;
+import 'package:faiadashu/questionnaires/view/view.dart' show QuestionnaireResponseFiller;
 import 'package:flutter/material.dart';
 
 /// A circular progress indicator for the filling of a [QuestionnaireModel]
@@ -14,8 +13,8 @@ class QuestionnaireFillerCircularProgress extends StatelessWidget {
 
   const QuestionnaireFillerCircularProgress({
     this.radius = defaultRadius,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {

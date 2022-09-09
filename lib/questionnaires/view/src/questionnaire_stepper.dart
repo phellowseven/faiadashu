@@ -18,8 +18,8 @@ class QuestionnaireStepper extends StatefulWidget {
     required this.fhirResourceProvider,
     required this.launchContext,
     this.questionnaireModelDefaults = const QuestionnaireModelDefaults(),
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   State<StatefulWidget> createState() => QuestionnaireStepperState();
@@ -55,8 +55,7 @@ class QuestionnaireStepperState extends State<QuestionnaireStepper> {
                     controller: controller,
                     itemCount: itemCount,
                     itemBuilder: (BuildContext context, int index) {
-                      return QuestionnaireResponseFiller.of(context)
-                          .itemFillerAt(index);
+                      return QuestionnaireResponseFiller.of(context).itemFillerAt(index);
                     },
                   ),
                 ),
@@ -85,16 +84,14 @@ class QuestionnaireStepperState extends State<QuestionnaireStepper> {
                             return AnimatedSwitcher(
                               duration: const Duration(milliseconds: 200),
                               child: Text(
-                                FDashLocalizations.of(context)
-                                    .aggregationScore(scoreString),
+                                FDashLocalizations.of(context).aggregationScore(scoreString),
                                 key: ValueKey<String>(scoreString),
                                 style: Theme.of(context).textTheme.headline4,
                               ),
                             );
                           },
-                          valueListenable:
-                              QuestionnaireResponseFiller.of(context)
-                                  .aggregator<TotalScoreAggregator>(),
+                          valueListenable: QuestionnaireResponseFiller.of(context)
+                              .aggregator<TotalScoreAggregator>(),
                         ),
                         if (QuestionnaireTheme.of(context).showProgress)
                           const QuestionnaireFillerProgressBar(),

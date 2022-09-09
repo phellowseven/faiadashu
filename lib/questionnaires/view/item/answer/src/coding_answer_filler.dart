@@ -11,8 +11,8 @@ class CodingAnswerFiller extends QuestionnaireAnswerFiller {
   State<StatefulWidget> createState() => _CodingAnswerState();
 }
 
-class _CodingAnswerState extends QuestionnaireAnswerFillerState<OptionsOrString,
-    CodingAnswerFiller, CodingAnswerModel> {
+class _CodingAnswerState
+    extends QuestionnaireAnswerFillerState<OptionsOrString, CodingAnswerFiller, CodingAnswerModel> {
   _CodingAnswerState();
 
   @override
@@ -32,14 +32,9 @@ class _CodingAnswerState extends QuestionnaireAnswerFillerState<OptionsOrString,
 
 class _CodingInputControl extends AnswerInputControl<CodingAnswerModel> {
   const _CodingInputControl(
-    CodingAnswerModel answerModel, {
-    Key? key,
-    FocusNode? focusNode,
-  }) : super(
-          answerModel,
-          key: key,
-          focusNode: focusNode,
-        );
+    super.answerModel, {
+    super.focusNode,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -54,10 +49,8 @@ class _CodingInputControl extends AnswerInputControl<CodingAnswerModel> {
           padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16.0),
           child: Text(
             errorText ?? '',
-            style: Theme.of(context)
-                .textTheme
-                .caption
-                ?.copyWith(color: Theme.of(context).errorColor),
+            style:
+                Theme.of(context).textTheme.caption?.copyWith(color: Theme.of(context).errorColor),
           ),
         ),
       ],
@@ -122,9 +115,8 @@ class _StyledOption extends StatefulWidget {
 
   const _StyledOption(
     this.answerModel,
-    this.optionModel, {
-    Key? key,
-  }) : super(key: key);
+    this.optionModel,
+  );
 
   @override
   _StyledOptionState createState() => _StyledOptionState();
@@ -168,8 +160,7 @@ class _StyledOptionState extends State<_StyledOption> {
     final styledOptionTitle = Xhtml.fromRenderingString(
       context,
       optionTitle,
-      questionnaireModel: answerModel
-          .responseItemModel.questionnaireItemModel.questionnaireModel,
+      questionnaireModel: answerModel.responseItemModel.questionnaireItemModel.questionnaireModel,
       imageWidth: 100,
       imageHeight: 100,
       key: ValueKey<String>(
@@ -190,8 +181,7 @@ class _CheckboxChoice extends StatelessWidget {
   final CodingAnswerOptionModel answerOption;
   final CodingAnswerModel answerModel;
 
-  const _CheckboxChoice(this.answerModel, this.answerOption, {Key? key})
-      : super(key: key);
+  const _CheckboxChoice(this.answerModel, this.answerOption);
 
   @override
   Widget build(BuildContext context) {
@@ -225,7 +215,7 @@ class _CheckboxChoice extends StatelessWidget {
 class _NullRadioChoice extends StatelessWidget {
   final CodingAnswerModel answerModel;
 
-  const _NullRadioChoice(this.answerModel, {Key? key}) : super(key: key);
+  const _NullRadioChoice(this.answerModel);
 
   @override
   Widget build(BuildContext context) {
@@ -249,8 +239,7 @@ class _RadioChoice extends StatelessWidget {
   final CodingAnswerOptionModel answerOption;
   final CodingAnswerModel answerModel;
 
-  const _RadioChoice(this.answerModel, this.answerOption, {Key? key})
-      : super(key: key);
+  const _RadioChoice(this.answerModel, this.answerOption);
 
   @override
   Widget build(BuildContext context) {
@@ -280,14 +269,9 @@ class _RadioChoice extends StatelessWidget {
 
 class _CodingDropdown extends AnswerInputControl<CodingAnswerModel> {
   const _CodingDropdown(
-    CodingAnswerModel answerModel, {
-    Key? key,
-    FocusNode? focusNode,
-  }) : super(
-          answerModel,
-          key: key,
-          focusNode: focusNode,
-        );
+    super.answerModel, {
+    super.focusNode,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -296,8 +280,7 @@ class _CodingDropdown extends AnswerInputControl<CodingAnswerModel> {
         const DropdownMenuItem<String>(
           child: NullDashText(),
         ),
-      ...answerModel.answerOptions
-          .map<DropdownMenuItem<String>>((answerOption) {
+      ...answerModel.answerOptions.map<DropdownMenuItem<String>>((answerOption) {
         return DropdownMenuItem<String>(
           value: answerOption.uid,
           child: _StyledOption(answerModel, answerOption),
@@ -325,8 +308,7 @@ class _CodingDropdown extends AnswerInputControl<CodingAnswerModel> {
         items: dropdownItems,
         decoration: InputDecoration(
           // Empty error texts triggers red border, but showing text would result in a duplicate.
-          errorStyle:
-              const TextStyle(height: 0, color: Color.fromARGB(0, 0, 0, 0)),
+          errorStyle: const TextStyle(height: 0, color: Color.fromARGB(0, 0, 0, 0)),
           errorText: answerModel.displayErrorText,
         ),
       ),
@@ -336,15 +318,10 @@ class _CodingDropdown extends AnswerInputControl<CodingAnswerModel> {
 
 class _VerticalCodingChoices extends AnswerInputControl<CodingAnswerModel> {
   const _VerticalCodingChoices(
-    CodingAnswerModel answerModel,
+    super.answerModel,
     this.choices, {
-    Key? key,
-    FocusNode? focusNode,
-  }) : super(
-          answerModel,
-          key: key,
-          focusNode: focusNode,
-        );
+    super.focusNode,
+  });
 
   final List<Widget> choices;
 
@@ -371,14 +348,9 @@ class _CodingChoices extends AnswerInputControl<CodingAnswerModel> {
   late final List<Widget> _choices;
 
   _CodingChoices(
-    CodingAnswerModel answerModel, {
-    Key? key,
-    FocusNode? focusNode,
-  }) : super(
-          answerModel,
-          focusNode: focusNode,
-          key: key,
-        ) {
+    super.answerModel, {
+    super.focusNode,
+  }) {
     _choices = _createChoices();
   }
 
@@ -387,8 +359,7 @@ class _CodingChoices extends AnswerInputControl<CodingAnswerModel> {
     return LayoutBuilder(
       builder: (BuildContext _, BoxConstraints constraints) {
         return answerModel.isHorizontal &&
-                constraints.maxWidth >
-                    QuestionnaireTheme.of(context).horizontalCodingBreakpoint
+                constraints.maxWidth > QuestionnaireTheme.of(context).horizontalCodingBreakpoint
             ? _HorizontalCodingChoices(
                 answerModel,
                 _choices,
@@ -431,15 +402,10 @@ class _CodingChoices extends AnswerInputControl<CodingAnswerModel> {
 
 class _HorizontalCodingChoices extends AnswerInputControl<CodingAnswerModel> {
   const _HorizontalCodingChoices(
-    CodingAnswerModel answerModel,
+    super.answerModel,
     this.choices, {
-    Key? key,
-    FocusNode? focusNode,
-  }) : super(
-          answerModel,
-          focusNode: focusNode,
-          key: key,
-        );
+    super.focusNode,
+  });
 
   final List<Widget> choices;
 
@@ -476,8 +442,7 @@ class _CodingChoiceDecorator extends StatelessWidget {
     this.answerModel, {
     this.focusNode,
     this.child,
-    Key? key,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -512,14 +477,9 @@ class _CodingChoiceDecorator extends StatelessWidget {
 
 class _CodingAutoComplete extends AnswerInputControl<CodingAnswerModel> {
   const _CodingAutoComplete(
-    CodingAnswerModel answerModel, {
-    Key? key,
-    FocusNode? focusNode,
-  }) : super(
-          answerModel,
-          key: key,
-          focusNode: focusNode,
-        );
+    super.answerModel, {
+    super.focusNode,
+  });
 
   Widget _fieldViewBuilder(
     BuildContext context,
@@ -547,15 +507,13 @@ class _CodingAutoComplete extends AnswerInputControl<CodingAnswerModel> {
           initialValue: TextEditingValue(
             text: answerModel.singleSelection?.optionText.plainText ?? '',
           ),
-          displayStringForOption: (answerOption) =>
-              answerOption.optionText.plainText,
+          displayStringForOption: (answerOption) => answerOption.optionText.plainText,
           optionsBuilder: (TextEditingValue textEditingValue) {
             if (textEditingValue.text.isEmpty) {
               return const Iterable<CodingAnswerOptionModel>.empty();
             }
 
-            return answerModel.answerOptions
-                .where((CodingAnswerOptionModel option) {
+            return answerModel.answerOptions.where((CodingAnswerOptionModel option) {
               return option.optionText.plainText
                   .toLowerCase()
                   .contains(textEditingValue.text.toLowerCase());
@@ -579,7 +537,7 @@ class _CodingAutoComplete extends AnswerInputControl<CodingAnswerModel> {
 class _OpenStringInputControl extends StatefulWidget {
   final CodingAnswerModel answerModel;
 
-  const _OpenStringInputControl(this.answerModel, {Key? key}) : super(key: key);
+  const _OpenStringInputControl(this.answerModel);
 
   @override
   _OpenStringInputControlState createState() => _OpenStringInputControlState();
@@ -591,8 +549,7 @@ class _OpenStringInputControlState extends State<_OpenStringInputControl> {
   @override
   void initState() {
     super.initState();
-    _openStringController.text =
-        widget.answerModel.value?.openStrings?.first ?? '';
+    _openStringController.text = widget.answerModel.value?.openStrings?.first ?? '';
   }
 
   @override
@@ -604,10 +561,8 @@ class _OpenStringInputControlState extends State<_OpenStringInputControl> {
         Xhtml.fromRenderingString(
           context,
           answerModel.openLabel,
-          defaultTextStyle: Theme.of(context)
-              .textTheme
-              .bodyText2
-              ?.copyWith(fontWeight: FontWeight.w500),
+          defaultTextStyle:
+              Theme.of(context).textTheme.bodyText2?.copyWith(fontWeight: FontWeight.w500),
         ),
         const SizedBox(
           width: 16.0,
@@ -624,8 +579,7 @@ class _OpenStringInputControlState extends State<_OpenStringInputControl> {
             },
             decoration: InputDecoration(
               // Empty error texts triggers red border, but showing text would result in a duplicate.
-              errorStyle:
-                  const TextStyle(height: 0, color: Color.fromARGB(0, 0, 0, 0)),
+              errorStyle: const TextStyle(height: 0, color: Color.fromARGB(0, 0, 0, 0)),
 
               errorText: answerModel.displayErrorText,
             ),
@@ -638,12 +592,11 @@ class _OpenStringInputControlState extends State<_OpenStringInputControl> {
 
 class _FDashAutocompleteField extends StatelessWidget {
   const _FDashAutocompleteField({
-    Key? key,
     required this.answerModel,
     required this.focusNode,
     required this.textEditingController,
     required this.onFieldSubmitted,
-  }) : super(key: key);
+  });
 
   final AnswerModel answerModel;
 

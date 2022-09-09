@@ -11,8 +11,8 @@ class StringAnswerFiller extends QuestionnaireAnswerFiller {
   State<StatefulWidget> createState() => _StringAnswerState();
 }
 
-class _StringAnswerState extends QuestionnaireAnswerFillerState<String,
-    StringAnswerFiller, StringAnswerModel> {
+class _StringAnswerState
+    extends QuestionnaireAnswerFillerState<String, StringAnswerFiller, StringAnswerModel> {
   final _editingController = TextEditingController();
 
   _StringAnswerState();
@@ -47,15 +47,10 @@ class _StringAnswerInputControl extends AnswerInputControl<StringAnswerModel> {
   final TextEditingController editingController;
 
   const _StringAnswerInputControl(
-    StringAnswerModel answerModel, {
+    super.answerModel, {
     required this.editingController,
-    FocusNode? focusNode,
-    Key? key,
-  }) : super(
-          answerModel,
-          focusNode: focusNode,
-          key: key,
-        );
+    super.focusNode,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -101,8 +96,7 @@ class _StringAnswerInputControl extends AnswerInputControl<StringAnswerModel> {
               : 1,
           decoration: InputDecoration(
             errorText: answerModel.displayErrorText,
-            errorStyle: (itemModel
-                    .isCalculated) // Force display of error text on calculated item
+            errorStyle: (itemModel.isCalculated) // Force display of error text on calculated item
                 ? TextStyle(
                     color: Theme.of(context).errorColor,
                   )

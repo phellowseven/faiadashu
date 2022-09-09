@@ -17,17 +17,14 @@ class QuestionnaireTheme extends InheritedWidget {
 
   const QuestionnaireTheme({
     required this.data,
-    required Widget child,
-    Key? key,
-  }) : super(key: key, child: child);
+    required super.child,
+    super.key,
+  });
 
   static QuestionnaireThemeData of(BuildContext context) {
-    final inheritedTheme =
-        context.dependOnInheritedWidgetOfExactType<QuestionnaireTheme>();
+    final inheritedTheme = context.dependOnInheritedWidgetOfExactType<QuestionnaireTheme>();
 
-    return inheritedTheme == null
-        ? const QuestionnaireThemeData()
-        : inheritedTheme.data;
+    return inheritedTheme == null ? const QuestionnaireThemeData() : inheritedTheme.data;
   }
 
   @override
@@ -71,8 +68,7 @@ class QuestionnaireThemeData {
   static const defaultCodingControlPreference = CodingControlPreference.compact;
   final CodingControlPreference codingControlPreference;
 
-  final QuestionnaireAnswerFiller Function(AnswerModel, {Key? key})
-      createQuestionnaireAnswerFiller;
+  final QuestionnaireAnswerFiller Function(AnswerModel, {Key? key}) createQuestionnaireAnswerFiller;
 
   const QuestionnaireThemeData({
     this.canSkipQuestions = false,
@@ -186,8 +182,7 @@ class QuestionnaireThemeData {
       children: [
         Expanded(child: answerFiller),
         IconButton(
-          onPressed:
-              (removeAnswerCallback != null) ? removeAnswerCallback : null,
+          onPressed: (removeAnswerCallback != null) ? removeAnswerCallback : null,
           icon: const Icon(Icons.delete),
         ),
       ],

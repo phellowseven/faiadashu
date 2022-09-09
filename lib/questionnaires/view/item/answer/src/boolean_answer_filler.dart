@@ -11,8 +11,8 @@ class BooleanAnswerFiller extends QuestionnaireAnswerFiller {
   State<StatefulWidget> createState() => _BooleanItemState();
 }
 
-class _BooleanItemState extends QuestionnaireAnswerFillerState<Boolean,
-    BooleanAnswerFiller, BooleanAnswerModel> {
+class _BooleanItemState
+    extends QuestionnaireAnswerFillerState<Boolean, BooleanAnswerFiller, BooleanAnswerModel> {
   _BooleanItemState();
 
   @override
@@ -30,12 +30,9 @@ class _BooleanItemState extends QuestionnaireAnswerFillerState<Boolean,
 
 class _BooleanInputControl extends AnswerInputControl<BooleanAnswerModel> {
   const _BooleanInputControl(
-    BooleanAnswerModel answerModel, {
-    FocusNode? focusNode,
-  }) : super(
-          answerModel,
-          focusNode: focusNode,
-        );
+    super.answerModel, {
+    super.focusNode,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -50,9 +47,7 @@ class _BooleanInputControl extends AnswerInputControl<BooleanAnswerModel> {
           value: (answerModel.isTriState)
               ? answerModel.value?.value
               : (answerModel.value?.value != null),
-          activeColor: (answerModel.displayErrorText != null)
-              ? Theme.of(context).errorColor
-              : null,
+          activeColor: (answerModel.displayErrorText != null) ? Theme.of(context).errorColor : null,
           tristate: answerModel.isTriState,
           onChanged: (answerModel.isControlEnabled)
               ? (newValue) {
@@ -68,10 +63,8 @@ class _BooleanInputControl extends AnswerInputControl<BooleanAnswerModel> {
         if (answerModel.displayErrorText != null)
           Text(
             answerModel.displayErrorText!,
-            style: Theme.of(context)
-                .textTheme
-                .caption!
-                .copyWith(color: Theme.of(context).errorColor),
+            style:
+                Theme.of(context).textTheme.caption!.copyWith(color: Theme.of(context).errorColor),
           ),
       ],
     );

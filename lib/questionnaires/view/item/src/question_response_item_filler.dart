@@ -19,8 +19,7 @@ class QuestionResponseItemFiller extends ResponseItemFiller {
   State<StatefulWidget> createState() => QuestionResponseItemFillerState();
 }
 
-class QuestionResponseItemFillerState
-    extends ResponseItemFillerState<QuestionResponseItemFiller> {
+class QuestionResponseItemFillerState extends ResponseItemFillerState<QuestionResponseItemFiller> {
   static final _qrimLogger = Logger(QuestionResponseItemFillerState);
 
   late final QuestionItemModel questionResponseItemModel;
@@ -42,8 +41,7 @@ class QuestionResponseItemFillerState
       debugLabel: 'SkipSwitch ${responseItemModel.nodeUid}',
     );
 
-    _promptText =
-        questionResponseItemModel.questionnaireItemModel.promptTextItem?.text;
+    _promptText = questionResponseItemModel.questionnaireItemModel.promptTextItem?.text;
   }
 
   @override
@@ -105,8 +103,7 @@ class QuestionResponseItemFillerState
                   Row(
                     children: [
                       Text(
-                        FDashLocalizations.of(context)
-                            .dataAbsentReasonAskedDeclinedInputLabel,
+                        FDashLocalizations.of(context).dataAbsentReasonAskedDeclinedInputLabel,
                       ),
                       Switch(
                         focusNode: _skipSwitchFocusNode,
@@ -127,10 +124,8 @@ class QuestionResponseItemFillerState
             height: 0,
             width: double.infinity,
           ),
-          crossFadeState: questionResponseItemModel.displayVisibility !=
-                      DisplayVisibility.hidden &&
-                  questionResponseItemModel.structuralState ==
-                      StructuralState.present
+          crossFadeState: questionResponseItemModel.displayVisibility != DisplayVisibility.hidden &&
+                  questionResponseItemModel.structuralState == StructuralState.present
               ? CrossFadeState.showFirst
               : CrossFadeState.showSecond,
           duration: const Duration(milliseconds: 300),
@@ -146,13 +141,11 @@ class _HorizontalAnswerFillers extends StatefulWidget {
 
   const _HorizontalAnswerFillers(
     this.questionResponseItemModel,
-    this.questionnaireTheme, {
-    Key? key,
-  }) : super(key: key);
+    this.questionnaireTheme,
+  );
 
   @override
-  _HorizontalAnswerFillersState createState() =>
-      _HorizontalAnswerFillersState();
+  _HorizontalAnswerFillersState createState() => _HorizontalAnswerFillersState();
 }
 
 class _HorizontalAnswerFillersState extends State<_HorizontalAnswerFillers> {
@@ -168,8 +161,7 @@ class _HorizontalAnswerFillersState extends State<_HorizontalAnswerFillers> {
   }
 
   void _initAnswerFillers() {
-    final fillableAnswerModels =
-        widget.questionResponseItemModel.fillableAnswerModels;
+    final fillableAnswerModels = widget.questionResponseItemModel.fillableAnswerModels;
     for (final answerModel in fillableAnswerModels) {
       _answerFillers[answerModel.nodeUid] =
           QuestionnaireTheme.of(context).createQuestionnaireAnswerFiller(
@@ -210,8 +202,7 @@ class _HorizontalAnswerFillersState extends State<_HorizontalAnswerFillers> {
               context,
               answerFiller,
               hasMoreThanOneAnswer &&
-                      widget.questionResponseItemModel
-                              .questionnaireResponseModel.responseStatus ==
+                      widget.questionResponseItemModel.questionnaireResponseModel.responseStatus ==
                           QuestionnaireResponseStatus.in_progress
                   ? () {
                       _removeAnswerFiller(answerFiller);
@@ -224,8 +215,7 @@ class _HorizontalAnswerFillersState extends State<_HorizontalAnswerFillers> {
 
   @override
   Widget build(BuildContext context) {
-    final isRepeating =
-        widget.questionResponseItemModel.questionnaireItemModel.isRepeating;
+    final isRepeating = widget.questionResponseItemModel.questionnaireItemModel.isRepeating;
     final hasMoreThanOneAnswer = _answerFillers.length > 1;
 
     final decoratedAnswerFillers =
@@ -235,11 +225,9 @@ class _HorizontalAnswerFillersState extends State<_HorizontalAnswerFillers> {
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        if (!widget.questionResponseItemModel.isAskedButDeclined)
-          ...decoratedAnswerFillers,
+        if (!widget.questionResponseItemModel.isAskedButDeclined) ...decoratedAnswerFillers,
         if (isRepeating &&
-            widget.questionResponseItemModel.questionnaireResponseModel
-                    .responseStatus ==
+            widget.questionResponseItemModel.questionnaireResponseModel.responseStatus ==
                 QuestionnaireResponseStatus.in_progress)
           widget.questionnaireTheme.buildAddRepetition(
             context,
@@ -247,8 +235,7 @@ class _HorizontalAnswerFillersState extends State<_HorizontalAnswerFillers> {
             (widget.questionResponseItemModel.latestAnswerModel.isNotEmpty)
                 ? () {
                     setState(() {
-                      final newAnswerModel =
-                          widget.questionResponseItemModel.addAnswerModel();
+                      final newAnswerModel = widget.questionResponseItemModel.addAnswerModel();
                       _addAnswerFiller(newAnswerModel);
                     });
                   }

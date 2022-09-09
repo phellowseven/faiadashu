@@ -24,8 +24,8 @@ class QuestionnaireScrollerPage extends StatelessWidget {
     this.aggregators,
     this.onLinkTap,
     this.questionnaireModelDefaults = const QuestionnaireModelDefaults(),
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -36,8 +36,7 @@ class QuestionnaireScrollerPage extends StatelessWidget {
         floatingActionButton: floatingActionButton ??
             (QuestionnaireTheme.of(context).showProgress
                 ? Builder(
-                    builder: (context) =>
-                        const QuestionnaireFillerCircularProgress(),
+                    builder: (context) => const QuestionnaireFillerCircularProgress(),
                   )
                 : null),
         persistentFooterButtons: persistentFooterButtons,

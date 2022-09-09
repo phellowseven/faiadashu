@@ -30,8 +30,8 @@ class FhirDateTimePicker extends StatefulWidget {
     this.locale,
     this.focusNode,
     this.enabled = true,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   // ignore: library_private_types_in_public_api
@@ -78,8 +78,7 @@ class _FhirDateTimePickerState extends State<FhirDateTimePicker> {
 
     if (widget.pickerType == FhirDateTime || widget.pickerType == Time) {
       final time = await showTimePicker(
-        initialTime:
-            TimeOfDay.fromDateTime(_dateTimeValue?.value ?? DateTime.now()),
+        initialTime: TimeOfDay.fromDateTime(_dateTimeValue?.value ?? DateTime.now()),
         context: context,
         builder: (context, child) {
           return Localizations.override(
@@ -105,9 +104,7 @@ class _FhirDateTimePickerState extends State<FhirDateTimePicker> {
 
     final fhirDateTime = FhirDateTime.fromDateTime(
       dateTime,
-      (widget.pickerType == Date)
-          ? DateTimePrecision.YYYYMMDD
-          : DateTimePrecision.FULL,
+      (widget.pickerType == Date) ? DateTimePrecision.YYYYMMDD : DateTimePrecision.FULL,
     );
     setState(() {
       _dateTimeFieldController.text = (widget.pickerType == Time)

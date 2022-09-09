@@ -5,7 +5,7 @@ import 'fdash_localizations.g.dart';
 
 /// The translations for German (`de`).
 class FDashLocalizationsDe extends FDashLocalizations {
-  FDashLocalizationsDe([String locale = 'de']) : super(locale);
+  FDashLocalizationsDe([super.locale = 'de']);
 
   @override
   String get validatorRequiredItem => 'Füllen sie dieses Pflichtfeld aus.';
@@ -102,8 +102,7 @@ class FDashLocalizationsDe extends FDashLocalizations {
   }
 
   @override
-  String get dataAbsentReasonAskedDeclinedInputLabel =>
-      'Ich möchte nicht antworten.';
+  String get dataAbsentReasonAskedDeclinedInputLabel => 'Ich möchte nicht antworten.';
 
   @override
   String get dataAbsentReasonAskedDeclinedOutput => 'Antwort abgelehnt';

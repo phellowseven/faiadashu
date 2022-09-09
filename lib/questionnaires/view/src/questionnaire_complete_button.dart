@@ -1,6 +1,5 @@
 import 'package:faiadashu/l10n/l10n.dart';
-import 'package:faiadashu/questionnaires/questionnaires.dart'
-    show QuestionnaireResponseFiller;
+import 'package:faiadashu/questionnaires/questionnaires.dart' show QuestionnaireResponseFiller;
 import 'package:fhir/r4/r4.dart' show QuestionnaireResponseStatus;
 import 'package:flutter/material.dart';
 
@@ -11,17 +10,14 @@ import 'package:flutter/material.dart';
 class QuestionnaireCompleteButton extends StatefulWidget {
   final VoidCallback? onCompleted;
 
-  const QuestionnaireCompleteButton({this.onCompleted, Key? key})
-      : super(key: key);
+  const QuestionnaireCompleteButton({this.onCompleted, super.key});
 
   @override
   // ignore: library_private_types_in_public_api
-  _QuestionnaireCompleteButtonState createState() =>
-      _QuestionnaireCompleteButtonState();
+  _QuestionnaireCompleteButtonState createState() => _QuestionnaireCompleteButtonState();
 }
 
-class _QuestionnaireCompleteButtonState
-    extends State<QuestionnaireCompleteButton> {
+class _QuestionnaireCompleteButtonState extends State<QuestionnaireCompleteButton> {
   @override
   Widget build(BuildContext context) {
     return ElevatedButton.icon(
@@ -39,10 +35,9 @@ class _QuestionnaireCompleteButtonState
           }
         }
 
-        final newResponseStatus =
-            (currentResponseStatus == QuestionnaireResponseStatus.completed)
-                ? QuestionnaireResponseStatus.in_progress
-                : QuestionnaireResponseStatus.completed;
+        final newResponseStatus = (currentResponseStatus == QuestionnaireResponseStatus.completed)
+            ? QuestionnaireResponseStatus.in_progress
+            : QuestionnaireResponseStatus.completed;
 
         setState(() {
           qrm.responseStatus = newResponseStatus;
@@ -52,23 +47,17 @@ class _QuestionnaireCompleteButtonState
           widget.onCompleted?.call();
         }
       },
-      icon: (QuestionnaireResponseFiller.of(context)
-                  .questionnaireResponseModel
-                  .responseStatus !=
+      icon: (QuestionnaireResponseFiller.of(context).questionnaireResponseModel.responseStatus !=
               QuestionnaireResponseStatus.completed)
           ? const Icon(Icons.check_circle)
           : const Icon(Icons.edit),
-      label: (QuestionnaireResponseFiller.of(context)
-                  .questionnaireResponseModel
-                  .responseStatus !=
+      label: (QuestionnaireResponseFiller.of(context).questionnaireResponseModel.responseStatus !=
               QuestionnaireResponseStatus.completed)
           ? Text(
-              FDashLocalizations.of(context)
-                  .responseStatusToCompleteButtonLabel,
+              FDashLocalizations.of(context).responseStatusToCompleteButtonLabel,
             )
           : Text(
-              FDashLocalizations.of(context)
-                  .responseStatusToInProgressButtonLabel,
+              FDashLocalizations.of(context).responseStatusToInProgressButtonLabel,
             ),
     );
   }

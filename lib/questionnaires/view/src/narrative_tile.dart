@@ -1,8 +1,5 @@
 import 'package:faiadashu/questionnaires/questionnaires.dart'
-    show
-        NarrativeAggregator,
-        QuestionnaireResponseFiller,
-        QuestionnaireResponseModel;
+    show NarrativeAggregator, QuestionnaireResponseFiller, QuestionnaireResponseModel;
 import 'package:faiadashu/questionnaires/view/src/webview_none.dart'
     if (dart.library.io) 'package:faiadashu/questionnaires/view/src/webview_io.dart'
     if (dart.library.html) 'package:faiadashu/questionnaires/view/src/webview_html.dart';
@@ -22,8 +19,8 @@ class NarrativeTile extends StatefulWidget {
   const NarrativeTile({
     this.questionnaireResponseModel,
     this.narrative,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   State<StatefulWidget> createState() => _NarrativeTileState();
@@ -50,10 +47,7 @@ class _NarrativeTileState extends State<NarrativeTile> {
     } else {
       final questionnaireResponseModel = widget.questionnaireResponseModel ??
           QuestionnaireResponseFiller.of(context).questionnaireResponseModel;
-      div = questionnaireResponseModel
-          .aggregator<NarrativeAggregator>()
-          .aggregate()
-          ?.div;
+      div = questionnaireResponseModel.aggregator<NarrativeAggregator>().aggregate()?.div;
     }
 
     div ??= NarrativeAggregator.emptyNarrative.div;
