@@ -9,6 +9,8 @@ import 'package:intl/intl.dart' as intl;
 import 'fdash_localizations_ar.dart';
 import 'fdash_localizations_de.dart';
 import 'fdash_localizations_en.dart';
+import 'fdash_localizations_fr.dart';
+import 'fdash_localizations_it.dart';
 import 'fdash_localizations_es.dart';
 import 'fdash_localizations_ja.dart';
 
@@ -99,6 +101,8 @@ abstract class FDashLocalizations {
     Locale('en'),
     Locale('ar'),
     Locale('de'),
+    Locale('fr'),
+    Locale('it'),
     Locale('es'),
     Locale('ja')
   ];
@@ -373,8 +377,15 @@ class _FDashLocalizationsDelegate
   }
 
   @override
-  bool isSupported(Locale locale) =>
-      <String>['ar', 'de', 'en', 'es', 'ja'].contains(locale.languageCode);
+  bool isSupported(Locale locale) => <String>[
+        'ar',
+        'de',
+        'en',
+        'fr',
+        'it',
+        'es',
+        'ja'
+      ].contains(locale.languageCode);
 
   @override
   bool shouldReload(_FDashLocalizationsDelegate old) => false;
@@ -389,6 +400,10 @@ FDashLocalizations lookupFDashLocalizations(Locale locale) {
       return FDashLocalizationsDe();
     case 'en':
       return FDashLocalizationsEn();
+    case 'fr':
+      return FDashLocalizationsFr();
+    case 'it':
+      return FDashLocalizationsIt();
     case 'es':
       return FDashLocalizationsEs();
     case 'ja':
