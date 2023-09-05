@@ -60,19 +60,24 @@ class _NarrativeDrawerState extends State<NarrativeDrawer> {
                     secondary: IconButton(
                       icon: const Icon(Icons.copy),
                       onPressed: () {
+                        String? tmpNarrativeAggregator =
+                            QuestionnaireResponseFiller.of(context)
+                                .aggregator<NarrativeAggregator>()
+                                .aggregate()
+                                ?.div;
+                        tmpNarrativeAggregator ??= "Label";
+
                         Clipboard.setData(
                           ClipboardData(
                             text: _drawerMode
                                 ? const JsonEncoder.withIndent('    ').convert(
                                     QuestionnaireResponseFiller.of(context)
-                                        .aggregator<QuestionnaireResponseAggregator>()
+                                        .aggregator<
+                                            QuestionnaireResponseAggregator>()
                                         .aggregate(containPatient: true)
                                         ?.toJson(),
                                   )
-                                : QuestionnaireResponseFiller.of(context)
-                                    .aggregator<NarrativeAggregator>()
-                                    .aggregate()
-                                    ?.div,
+                                : tmpNarrativeAggregator,
                           ),
                         ).then((_) {
                           ScaffoldMessenger.of(context).showSnackBar(
