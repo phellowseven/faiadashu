@@ -15,16 +15,22 @@ class BrokenQuestionnaireItem extends StatelessWidget {
     this.message,
     this.element,
     this.cause, {
-    super.key,
-  });
+    Key? key,
+  }) : super(key: key);
 
   /// Construct the item from an exception.
   /// Special support for [QuestionnaireFormatException].
-  BrokenQuestionnaireItem.fromException(Object exception, {super.key})
-      : message =
-            (exception is QuestionnaireFormatException) ? exception.message : exception.toString(),
-        element = (exception is QuestionnaireFormatException) ? exception.element : null,
-        cause = (exception is QuestionnaireFormatException) ? exception.cause : null;
+  BrokenQuestionnaireItem.fromException(Object exception, {Key? key})
+      : message = (exception is QuestionnaireFormatException)
+            ? exception.message
+            : exception.toString(),
+        element = (exception is QuestionnaireFormatException)
+            ? exception.element
+            : null,
+        cause = (exception is QuestionnaireFormatException)
+            ? exception.cause
+            : null,
+        super(key: key);
 
   @override
   Widget build(BuildContext context) {

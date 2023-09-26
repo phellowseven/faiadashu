@@ -10,10 +10,13 @@ class QuestionnaireLoadingIndicator extends StatelessWidget {
 
   QuestionnaireLoadingIndicator(
     AsyncSnapshot<QuestionnaireResponseModel> snapshot, {
-    super.key,
+    Key? key,
   })  : state = snapshot.connectionState,
         hasError = snapshot.hasError,
-        detail = (snapshot.hasData) ? snapshot.data?.questionnaireModel.title : snapshot.error;
+        detail = (snapshot.hasData)
+            ? snapshot.data?.questionnaireModel.title
+            : snapshot.error,
+        super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +37,8 @@ class QuestionnaireLoadingIndicator extends StatelessWidget {
               width: shortAxis,
               height: shortAxis,
               child: CircularProgressIndicator(
-                semanticsLabel: FDashLocalizations.of(context).progressQuestionnaireLoading,
+                semanticsLabel:
+                    FDashLocalizations.of(context).progressQuestionnaireLoading,
               ),
             ),
           const SizedBox(

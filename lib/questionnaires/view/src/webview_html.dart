@@ -9,25 +9,46 @@ Widget createWebView(String xhtml, {Key? key}) => _FullHtmlViewer(
       key: key,
     );
 
-class _FullHtmlViewer extends StatelessWidget {
+class _FullHtmlViewer extends StatefulWidget {
   final String xhtml;
 
-  const _FullHtmlViewer(this.xhtml, {super.key});
+  const _FullHtmlViewer(
+    this.xhtml, {
+    super.key,
+  });
 
   @override
-  Widget build(BuildContext context) {
-    // required while web support is in preview
-    WebView.platform = WebWebViewPlatform();
+  State<_FullHtmlViewer> createState() => _FullHtmlViewerState();
+}
 
+class _FullHtmlViewerState extends State<_FullHtmlViewer> {
+  late final WebViewController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+
+    late final PlatformWebViewControllerCreationParams params;
+    params = const PlatformWebViewControllerCreationParams();
+    _controller = WebViewController.fromPlatformCreationParams(params);
     final dataUrl = Uri.dataFromString(
-      xhtml,
+      widget.xhtml,
       mimeType: 'text/html',
       encoding: Encoding.getByName('utf-8'),
     ).toString();
 
+    _controller.loadHtmlString(dataUrl);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    // required while web support is in preview
+    // WebView.platform = WebWebViewPlatform();
+
     return SizedBox.expand(
-      child: WebView(
-        initialUrl: dataUrl,
+      child: WebViewWidget(
+        controller: _controller,
+        // initialUrl: dataUrl,
       ),
     );
   }

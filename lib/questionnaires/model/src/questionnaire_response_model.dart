@@ -170,6 +170,7 @@ class QuestionnaireResponseModel {
     final questionnaireModel = await QuestionnaireModel.fromFhirResourceBundle(
       fhirResourceProvider: fhirResourceProvider,
       questionnaireModelDefaults: questionnaireModelDefaults,
+      locale: locale,
     );
 
     final questionnaireResponseModel = QuestionnaireResponseModel._(
@@ -769,7 +770,7 @@ class QuestionnaireResponseModel {
   }
 
   /// Items can change, and this should not be cached.
-  Iterable<FillerItemModel> orderedFillerItemModels() {
+  List<FillerItemModel> orderedFillerItemModels() {
     return _fillerItems;
   }
 

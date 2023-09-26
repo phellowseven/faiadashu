@@ -11,8 +11,8 @@ class ResourceJsonTree extends StatefulWidget {
   const ResourceJsonTree(
     this.resourceRoot, {
     this.autoExpandLevel = defaultAutoExpandLevel,
-    super.key,
-  });
+    Key? key,
+  }) : super(key: key);
 
   final dynamic resourceRoot;
   final int autoExpandLevel;
@@ -25,7 +25,8 @@ class ResourceJsonTree extends StatefulWidget {
   ) {
     Widget node;
     final nodeRoot = parent != null ? parent.root : this;
-    final nodeExpandedDepth = (parent != null) ? parent.expandedDepth - 1 : autoExpandLevel;
+    final nodeExpandedDepth =
+        (parent != null) ? parent.expandedDepth - 1 : autoExpandLevel;
 
     const jsonLeftOffset = 8.0;
 
@@ -82,8 +83,8 @@ abstract class _JsonNode<T> extends StatefulWidget {
     this.nodeValue,
     this.leftOffset,
     this.expandedDepth, {
-    super.key,
-  });
+    Key? key,
+  }) : super(key: key);
 
   final ResourceJsonTree root;
   final _JsonNode? parent;
@@ -113,13 +114,22 @@ abstract class _JsonNodeState<T extends _JsonNode> extends State<T> {
 
 class _JsonViewerMapNode extends _JsonNode<Map<String, dynamic>> {
   const _JsonViewerMapNode(
-    super.root,
-    super.parent,
-    super.nodeName,
-    super.nodeValue,
-    super.leftOffset,
-    super.expandedDepth,
-  );
+    ResourceJsonTree root,
+    _JsonNode<dynamic>? parent,
+    String nodeName,
+    Map<String, dynamic> nodeValue,
+    double leftOffset,
+    int expandedDepth, {
+    Key? key,
+  }) : super(
+          root,
+          parent,
+          nodeName,
+          nodeValue,
+          leftOffset,
+          expandedDepth,
+          key: key,
+        );
 
   @override
   State<StatefulWidget> createState() => _MapNodeState();
@@ -175,13 +185,22 @@ class _MapNodeState extends _JsonNodeState<_JsonViewerMapNode> {
 /// Display a list of JSON entries
 class _JsonViewerListNode extends _JsonNode<List<dynamic>> {
   const _JsonViewerListNode(
-    super.root,
-    super.parent,
-    super.nodeName,
-    super.nodeValue,
-    super.leftOffset,
-    super.expandedDepth,
-  );
+    ResourceJsonTree root,
+    _JsonNode<dynamic>? parent,
+    String nodeName,
+    List<dynamic> nodeValue,
+    double leftOffset,
+    int expandedDepth, {
+    Key? key,
+  }) : super(
+          root,
+          parent,
+          nodeName,
+          nodeValue,
+          leftOffset,
+          expandedDepth,
+          key: key,
+        );
 
   @override
   State<StatefulWidget> createState() => _JsonViewerListNodeState();
@@ -222,7 +241,8 @@ class _JsonViewerListNodeState extends _JsonNodeState<_JsonViewerListNode> {
             ' ($count)',
             style: (count > 0)
                 ? TextStyle(
-                    color: themeData.textTheme.bodyText1?.color?.withOpacity(variant600Opacity),
+                    color: themeData.textTheme.bodyText1?.color
+                        ?.withOpacity(variant600Opacity),
                   )
                 : TextStyle(color: themeData.errorColor),
           ),
@@ -251,7 +271,8 @@ class _JsonViewerGenericNode extends StatelessWidget {
   final String nodeName;
   final dynamic nodeValue;
 
-  const _JsonViewerGenericNode(this.nodeName, this.nodeValue);
+  const _JsonViewerGenericNode(this.nodeName, this.nodeValue, {Key? key})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -263,7 +284,9 @@ class _JsonViewerGenericNode extends StatelessWidget {
     } else {
       switch (nodeValue.runtimeType) {
         case bool:
-          color = (nodeValue as bool) ? themeData.colorScheme.secondary : themeData.errorColor;
+          color = (nodeValue as bool)
+              ? themeData.colorScheme.secondary
+              : themeData.errorColor;
           break;
         case int:
           color = themeData.colorScheme.secondary;
@@ -274,7 +297,9 @@ class _JsonViewerGenericNode extends StatelessWidget {
     const infiniteLines = 999;
 
     final nodeString = nodeValue.toString();
-    final nodeDisplay = (nodeString.length < 500) ? nodeString : '${nodeString.substring(0, 500)}…';
+    final nodeDisplay = (nodeString.length < 500)
+        ? nodeString
+        : '${nodeString.substring(0, 500)}…';
 
     return Padding(
       padding: const EdgeInsets.only(left: 24),
@@ -284,7 +309,8 @@ class _JsonViewerGenericNode extends StatelessWidget {
           Text(
             nodeName,
             style: TextStyle(
-              color: themeData.textTheme.bodyText1?.color?.withOpacity(variant600Opacity),
+              color: themeData.textTheme.bodyText1?.color
+                  ?.withOpacity(variant600Opacity),
             ),
           ),
           const Text(' : '),

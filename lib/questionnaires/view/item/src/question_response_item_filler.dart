@@ -19,7 +19,8 @@ class QuestionResponseItemFiller extends ResponseItemFiller {
   State<StatefulWidget> createState() => QuestionResponseItemFillerState();
 }
 
-class QuestionResponseItemFillerState extends ResponseItemFillerState<QuestionResponseItemFiller> {
+class QuestionResponseItemFillerState
+    extends ResponseItemFillerState<QuestionResponseItemFiller> {
   static final _qrimLogger = Logger(QuestionResponseItemFillerState);
 
   late final QuestionItemModel questionResponseItemModel;
@@ -41,7 +42,8 @@ class QuestionResponseItemFillerState extends ResponseItemFillerState<QuestionRe
       debugLabel: 'SkipSwitch ${responseItemModel.nodeUid}',
     );
 
-    _promptText = questionResponseItemModel.questionnaireItemModel.promptTextItem?.text;
+    _promptText =
+        questionResponseItemModel.questionnaireItemModel.promptTextItem?.text;
   }
 
   @override
@@ -58,15 +60,55 @@ class QuestionResponseItemFillerState extends ResponseItemFillerState<QuestionRe
     }
   }
 
+  Widget _answerFillerWidget() {
+    return _HorizontalAnswerFillers(
+      questionResponseItemModel,
+      questionnaireTheme,
+    );
+  }
+
+  Widget? _promptTextWidget(BuildContext context) {
+    final promptText = _promptText;
+    if (promptText == null) return null;
+
+    return Xhtml.fromRenderingString(
+      context,
+      promptText,
+    );
+  }
+
+  Widget? _questionSkipperWidget() {
+    if (questionnaireTheme.canSkipQuestions &&
+      !widget.questionnaireItemModel.isReadOnly &&
+      !widget.questionnaireItemModel.isRequired
+    ) {
+      return Row(
+        children: [
+          Text(
+            FDashLocalizations.of(context)
+                .dataAbsentReasonAskedDeclinedInputLabel,
+          ),
+          Switch(
+            focusNode: _skipSwitchFocusNode,
+            value: questionResponseItemModel.isAskedButDeclined,
+            onChanged: (bool value) {
+              _setDataAbsentReason(
+                value ? dataAbsentReasonAskedButDeclinedCode : null,
+              );
+            },
+          ),
+        ],
+      );
+    }
+
+    return null;
+  }
+
   @override
   Widget build(BuildContext context) {
     _qrimLogger.trace(
       'build ${widget.responseItemModel} hidden: ${widget.responseItemModel.questionnaireItemModel.isHidden}, enabled: ${widget.responseItemModel.isEnabled}',
     );
-
-    final canSkipQuestions = questionnaireTheme.canSkipQuestions;
-
-    final promptText = _promptText;
 
     return AnimatedBuilder(
       animation: widget.responseItemModel,
@@ -79,53 +121,23 @@ class QuestionResponseItemFillerState extends ResponseItemFillerState<QuestionRe
               debugDumpFocusTree();
             }, */
             focusNode: focusNode,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                if (titleWidget != null)
-                  Container(
-                    padding: const EdgeInsets.only(top: 8),
-                    child: titleWidget,
-                  ),
-                if (promptText != null)
-                  Xhtml.fromRenderingString(
-                    context,
-                    promptText,
-                  ),
-                _HorizontalAnswerFillers(
-                  questionResponseItemModel,
-                  questionnaireTheme,
-                ),
-                if (canSkipQuestions &&
-                    !widget.questionnaireItemModel.isReadOnly &&
-                    !widget.questionnaireItemModel.isRequired)
-                  Row(
-                    children: [
-                      Text(
-                        FDashLocalizations.of(context).dataAbsentReasonAskedDeclinedInputLabel,
-                      ),
-                      Switch(
-                        focusNode: _skipSwitchFocusNode,
-                        value: questionResponseItemModel.isAskedButDeclined,
-                        onChanged: (bool value) {
-                          _setDataAbsentReason(
-                            value ? dataAbsentReasonAskedButDeclinedCode : null,
-                          );
-                        },
-                      ),
-                    ],
-                  ),
-                const SizedBox(height: 8),
-              ],
+            child: QuestionnaireTheme.of(context).questionResponseItemLayoutBuilder(
+              context,
+              widget.responseItemModel as QuestionItemModel,
+              _answerFillerWidget(),
+              titleWidget: titleWidget,
+              promptTextWidget: _promptTextWidget(context),
+              questionSkipperWidget: _questionSkipperWidget(),
             ),
           ),
           secondChild: const SizedBox(
             height: 0,
             width: double.infinity,
           ),
-          crossFadeState: questionResponseItemModel.displayVisibility != DisplayVisibility.hidden &&
-                  questionResponseItemModel.structuralState == StructuralState.present
+          crossFadeState: questionResponseItemModel.displayVisibility !=
+                      DisplayVisibility.hidden &&
+                  questionResponseItemModel.structuralState ==
+                      StructuralState.present
               ? CrossFadeState.showFirst
               : CrossFadeState.showSecond,
           duration: const Duration(milliseconds: 300),
@@ -141,11 +153,13 @@ class _HorizontalAnswerFillers extends StatefulWidget {
 
   const _HorizontalAnswerFillers(
     this.questionResponseItemModel,
-    this.questionnaireTheme,
-  );
+    this.questionnaireTheme, {
+    Key? key,
+  }) : super(key: key);
 
   @override
-  _HorizontalAnswerFillersState createState() => _HorizontalAnswerFillersState();
+  _HorizontalAnswerFillersState createState() =>
+      _HorizontalAnswerFillersState();
 }
 
 class _HorizontalAnswerFillersState extends State<_HorizontalAnswerFillers> {
@@ -161,7 +175,8 @@ class _HorizontalAnswerFillersState extends State<_HorizontalAnswerFillers> {
   }
 
   void _initAnswerFillers() {
-    final fillableAnswerModels = widget.questionResponseItemModel.fillableAnswerModels;
+    final fillableAnswerModels =
+        widget.questionResponseItemModel.fillableAnswerModels;
     for (final answerModel in fillableAnswerModels) {
       _answerFillers[answerModel.nodeUid] =
           QuestionnaireTheme.of(context).createQuestionnaireAnswerFiller(
@@ -202,7 +217,8 @@ class _HorizontalAnswerFillersState extends State<_HorizontalAnswerFillers> {
               context,
               answerFiller,
               hasMoreThanOneAnswer &&
-                      widget.questionResponseItemModel.questionnaireResponseModel.responseStatus ==
+                      widget.questionResponseItemModel
+                              .questionnaireResponseModel.responseStatus ==
                           QuestionnaireResponseStatus.in_progress
                   ? () {
                       _removeAnswerFiller(answerFiller);
@@ -215,7 +231,8 @@ class _HorizontalAnswerFillersState extends State<_HorizontalAnswerFillers> {
 
   @override
   Widget build(BuildContext context) {
-    final isRepeating = widget.questionResponseItemModel.questionnaireItemModel.isRepeating;
+    final isRepeating =
+        widget.questionResponseItemModel.questionnaireItemModel.isRepeating;
     final hasMoreThanOneAnswer = _answerFillers.length > 1;
 
     final decoratedAnswerFillers =
@@ -225,9 +242,11 @@ class _HorizontalAnswerFillersState extends State<_HorizontalAnswerFillers> {
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        if (!widget.questionResponseItemModel.isAskedButDeclined) ...decoratedAnswerFillers,
+        if (!widget.questionResponseItemModel.isAskedButDeclined)
+          ...decoratedAnswerFillers,
         if (isRepeating &&
-            widget.questionResponseItemModel.questionnaireResponseModel.responseStatus ==
+            widget.questionResponseItemModel.questionnaireResponseModel
+                    .responseStatus ==
                 QuestionnaireResponseStatus.in_progress)
           widget.questionnaireTheme.buildAddRepetition(
             context,
@@ -235,7 +254,8 @@ class _HorizontalAnswerFillersState extends State<_HorizontalAnswerFillers> {
             (widget.questionResponseItemModel.latestAnswerModel.isNotEmpty)
                 ? () {
                     setState(() {
-                      final newAnswerModel = widget.questionResponseItemModel.addAnswerModel();
+                      final newAnswerModel =
+                          widget.questionResponseItemModel.addAnswerModel();
                       _addAnswerFiller(newAnswerModel);
                     });
                   }

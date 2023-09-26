@@ -16,7 +16,8 @@ class FhirResourceEditor extends ConsumerStatefulWidget {
   final String title;
   final bool showSubmitButton;
   final bool showFhirPath;
-  final StateNotifierProvider<FhirResourceNotifier, AsyncValue<FhirResource>> fhirResourceProvider;
+  final StateNotifierProvider<FhirResourceNotifier, AsyncValue<FhirResource>>
+      fhirResourceProvider;
 
   final int fhirPathOutputMinLines;
   final int fhirPathOutputMaxLines;
@@ -28,8 +29,8 @@ class FhirResourceEditor extends ConsumerStatefulWidget {
     this.showFhirPath = true,
     this.fhirPathOutputMinLines = 3,
     this.fhirPathOutputMaxLines = 3,
-    super.key,
-  });
+    Key? key,
+  }) : super(key: key);
 
   @override
   // ignore: library_private_types_in_public_api
@@ -47,10 +48,13 @@ class _FhirResourceEditorState extends ConsumerState<FhirResourceEditor> {
   void _fhirPathChanged(String newPath) {
     setState(() {
       try {
-        final jsonContext = jsonDecode(_codeController!.rawText) as Map<String, dynamic>;
-        final pathResult = walkFhirPath(context: jsonContext, pathExpression: newPath);
+        final jsonContext =
+            jsonDecode(_codeController!.rawText) as Map<String, dynamic>;
+        final pathResult =
+            walkFhirPath(context: jsonContext, pathExpression: newPath);
         const encoder = JsonEncoder.withIndent('  ');
-        _fhirPathOutputController!.text = encoder.convert(jsonDecode(jsonEncode(pathResult)));
+        _fhirPathOutputController!.text =
+            encoder.convert(jsonDecode(jsonEncode(pathResult)));
       } catch (e) {
         _fhirPathOutputController!.text = e.toString();
       }
@@ -98,9 +102,11 @@ class _FhirResourceEditorState extends ConsumerState<FhirResourceEditor> {
     return fhirResource.when(
       data: (value) {
         final codeController = ArgumentError.checkNotNull(_codeController);
-        final fhirPathController = ArgumentError.checkNotNull(_fhirPathController);
+        final fhirPathController =
+            ArgumentError.checkNotNull(_fhirPathController);
 
-        final fhirPathOutputController = ArgumentError.checkNotNull(_fhirPathOutputController);
+        final fhirPathOutputController =
+            ArgumentError.checkNotNull(_fhirPathOutputController);
 
         codeController.text = value.jsonString;
 
@@ -120,9 +126,9 @@ class _FhirResourceEditorState extends ConsumerState<FhirResourceEditor> {
                   height: 120,
                   child: Stack(
                     children: [
-                      const ColoredBox(
+                      Container(
                         color: Colors.black54,
-                        child: SizedBox.expand(),
+                        child: const SizedBox.expand(),
                       ),
                       Column(
                         mainAxisSize: MainAxisSize.min,
@@ -173,7 +179,8 @@ class _FhirResourceEditorState extends ConsumerState<FhirResourceEditor> {
                           ),
                           IconButton(
                             onPressed: () async {
-                              final clipboardData = await Clipboard.getData('text/plain');
+                              final clipboardData =
+                                  await Clipboard.getData('text/plain');
 
                               if (!mounted) {
                                 return;

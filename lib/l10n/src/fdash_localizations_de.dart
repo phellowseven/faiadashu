@@ -5,7 +5,7 @@ import 'fdash_localizations.g.dart';
 
 /// The translations for German (`de`).
 class FDashLocalizationsDe extends FDashLocalizations {
-  FDashLocalizationsDe([super.locale = 'de']);
+  FDashLocalizationsDe([String locale = 'de']) : super(locale);
 
   @override
   String get validatorRequiredItem => 'Füllen sie dieses Pflichtfeld aus.';
@@ -102,7 +102,18 @@ class FDashLocalizationsDe extends FDashLocalizations {
   }
 
   @override
-  String get dataAbsentReasonAskedDeclinedInputLabel => 'Ich möchte nicht antworten.';
+  String validatorMaxSize(String maxSize) {
+    return 'Select a file under $maxSize.';
+  }
+
+  @override
+  String validatorMimeTypes(String mimeTypes) {
+    return 'Select a file of the following types: $mimeTypes.';
+  }
+
+  @override
+  String get dataAbsentReasonAskedDeclinedInputLabel =>
+      'Ich möchte nicht antworten.';
 
   @override
   String get dataAbsentReasonAskedDeclinedOutput => 'Antwort abgelehnt';

@@ -34,7 +34,8 @@ class QuestionnaireScroller extends StatefulWidget {
   final QuestionnairePageScaffoldBuilder scaffoldBuilder;
   final QuestionnaireModelDefaults questionnaireModelDefaults;
 
-  final void Function(QuestionnaireResponseModel?)? onQuestionnaireResponseChanged;
+  final void Function(QuestionnaireResponseModel?)?
+      onQuestionnaireResponseChanged;
 
   const QuestionnaireScroller({
     this.locale,
@@ -45,8 +46,8 @@ class QuestionnaireScroller extends StatefulWidget {
     this.onLinkTap,
     this.questionnaireModelDefaults = const QuestionnaireModelDefaults(),
     this.onQuestionnaireResponseChanged,
-    super.key,
-  });
+    Key? key,
+  }) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -57,7 +58,8 @@ class QuestionnaireScroller extends StatefulWidget {
 class _QuestionnaireScrollerState extends State<QuestionnaireScroller> {
   QuestionnaireResponseModel? _questionnaireResponseModel;
   final ItemScrollController _listScrollController = ItemScrollController();
-  final ItemPositionsListener _itemPositionsListener = ItemPositionsListener.create();
+  final ItemPositionsListener _itemPositionsListener =
+      ItemPositionsListener.create();
 
   BuildContext? _belowFillerContext;
 
@@ -102,7 +104,8 @@ class _QuestionnaireScrollerState extends State<QuestionnaireScroller> {
       return;
     }
 
-    final index = _questionnaireResponseModel!.indexOfFillerItem((fim) => fim == fillerItemModel);
+    final index = _questionnaireResponseModel!
+        .indexOfFillerItem((fim) => fim == fillerItemModel);
 
     scrollTo(index!);
   }
@@ -122,7 +125,8 @@ class _QuestionnaireScrollerState extends State<QuestionnaireScroller> {
     _isFocussed = false;
     _focusIndex = index;
 
-    _itemPositionsListener.itemPositions.addListener(_focusWhileScrollingPositionListener);
+    _itemPositionsListener.itemPositions
+        .addListener(_focusWhileScrollingPositionListener);
 
     // Psychology 101: The farther we scroll, the longer we take.
     int currentPosition = 0;
@@ -130,7 +134,9 @@ class _QuestionnaireScrollerState extends State<QuestionnaireScroller> {
       currentPosition = _itemPositionsListener.itemPositions.value.first.index;
     } catch (_) {}
 
-    final distance = (currentPosition < index) ? index - currentPosition : currentPosition - index;
+    final distance = (currentPosition < index)
+        ? index - currentPosition
+        : currentPosition - index;
 
     final scrollDuration = max(1000, 1000 + (distance - 10) * 100);
 
@@ -188,12 +194,18 @@ class _QuestionnaireScrollerState extends State<QuestionnaireScroller> {
                       children: [
                         Container(
                           constraints: BoxConstraints(
-                            maxWidth: QuestionnaireTheme.of(context).maxItemWidth.clamp(
+                            maxWidth: QuestionnaireTheme.of(context)
+                                .maxItemWidth
+                                .clamp(
                                   constraints.minWidth,
                                   constraints.maxWidth - twice * edgeInsets,
                                 ),
                           ),
-                          child: QuestionnaireResponseFiller.of(context).itemFillerAt(i),
+                          child: QuestionnaireTheme.of(context).scrollerItemBuilder(
+                            context,
+                            QuestionnaireResponseFiller.of(context),
+                            i,
+                          ),
                         ),
                         const Spacer(),
                       ],
@@ -218,8 +230,8 @@ class _QuestionnaireScrollerState extends State<QuestionnaireScroller> {
           _questionnaireResponseModel = questionnaireResponseModel;
 
           if (widget.onQuestionnaireResponseChanged != null) {
-            // TODO: Ideally an initial state should be broadcast, but this is leading to exceptions for UI updates/setState.
-            //            _handleChangedQuestionnaireResponse();
+            // Broadcast initial response state.
+            _handleChangedQuestionnaireResponse();
 
             // FIXME: What is this listening for???
             _questionnaireResponseModel?.valueChangeNotifier
@@ -228,22 +240,24 @@ class _QuestionnaireScrollerState extends State<QuestionnaireScroller> {
 
           // Listen for new invalid items and then scroll to the first one.
           questionnaireResponseModel.invalidityNotifier.addListener(() {
-            final invalidNodes = questionnaireResponseModel.invalidityNotifier.value;
+            final invalidNodes =
+                questionnaireResponseModel.invalidityNotifier.value;
 
             if (invalidNodes == null) {
               return;
             }
 
             final firstInvalidUid = invalidNodes.keys.first;
-            final firstInvalidItem =
-                questionnaireResponseModel.fillerItemModelByUid(firstInvalidUid);
+            final firstInvalidItem = questionnaireResponseModel
+                .fillerItemModelByUid(firstInvalidUid);
             if (firstInvalidItem != null) {
               scrollToItem(firstInvalidItem);
             }
           });
 
           _focusIndex = questionnaireResponseModel.indexOfFillerItem(
-            (fim) => fim is QuestionItemModel && (fim.isUnanswered || fim.isInvalid),
+            (fim) =>
+                fim is QuestionItemModel && (fim.isUnanswered || fim.isInvalid),
           )!;
 
           if (_focusIndex == -1) {
@@ -262,7 +276,8 @@ class _QuestionnaireScrollerState extends State<QuestionnaireScroller> {
           'Focussing item# $_focusIndex - ${questionnaireResponseModel.itemFillerModelAt(_focusIndex)}',
         );
 
-        _itemPositionsListener.itemPositions.addListener(_initialPositionListener);
+        _itemPositionsListener.itemPositions
+            .addListener(_initialPositionListener);
       },
       onLinkTap: widget.onLinkTap,
     );
@@ -270,7 +285,8 @@ class _QuestionnaireScrollerState extends State<QuestionnaireScroller> {
 
   void _initialPositionListener() {
     // This is one-time only
-    _itemPositionsListener.itemPositions.removeListener(_initialPositionListener);
+    _itemPositionsListener.itemPositions
+        .removeListener(_initialPositionListener);
 
     _logger.trace(
       'Scroll positions are: ${_itemPositionsListener.itemPositions.value}',
@@ -281,7 +297,8 @@ class _QuestionnaireScrollerState extends State<QuestionnaireScroller> {
     // Item could be visible, but in an undesirable position, e.g.
     // at the bottom of the display. Make sure it is in the top third of screen.
     final isItemVisible = _itemPositionsListener.itemPositions.value.any(
-      (element) => element.index == _focusIndex && element.itemLeadingEdge < 0.35,
+      (element) =>
+          element.index == _focusIndex && element.itemLeadingEdge < 0.35,
     );
 
     _logger.debug('Item $_focusIndex already visible: $isItemVisible');
@@ -310,15 +327,16 @@ class _QuestionnaireScrollerState extends State<QuestionnaireScroller> {
       'Focussing - Scroll positions are: ${_itemPositionsListener.itemPositions.value}',
     );
 
-    final isItemVisible =
-        _itemPositionsListener.itemPositions.value.any((element) => element.index == _focusIndex);
+    final isItemVisible = _itemPositionsListener.itemPositions.value
+        .any((element) => element.index == _focusIndex);
 
     _logger.debug('Item $_focusIndex is visible: $isItemVisible');
 
     if (!isItemVisible) {
       return; // Not there yet...
     } else {
-      _itemPositionsListener.itemPositions.removeListener(_focusWhileScrollingPositionListener);
+      _itemPositionsListener.itemPositions
+          .removeListener(_focusWhileScrollingPositionListener);
       _requestFocus();
     }
   }
@@ -330,7 +348,8 @@ class _QuestionnaireScrollerState extends State<QuestionnaireScroller> {
 
     if (!_isFocussed) {
       WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-        QuestionnaireResponseFiller.of(_belowFillerContext!).requestFocus(_focusIndex);
+        QuestionnaireResponseFiller.of(_belowFillerContext!)
+            .requestFocus(_focusIndex);
       });
 
       _isFocussed = true;

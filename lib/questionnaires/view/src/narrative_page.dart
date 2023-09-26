@@ -15,8 +15,8 @@ class NarrativePage extends StatelessWidget {
   const NarrativePage({
     this.questionnaireResponseModel,
     this.narrative,
-    super.key,
-  });
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

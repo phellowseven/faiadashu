@@ -11,7 +11,7 @@ class ItemMediaImage extends StatelessWidget {
 
   final Widget itemImageWidget;
 
-  const ItemMediaImage._(this.itemImageWidget);
+  const ItemMediaImage._(this.itemImageWidget, {Key? key}) : super(key: key);
 
   static Widget? fromItemMedia(
     ItemMediaModel? itemMediaModel, {
@@ -61,9 +61,9 @@ class ItemMediaImage extends StatelessWidget {
 
     final itemImageUri = itemImageFhirUri.toString();
 
-    final itemImageWidget =
-        (mediaProvider?.providerFor(itemImageUri) as AssetImageAttachmentProvider?)
-            ?.getImage(itemImageUri, width: width, height: height);
+    final itemImageWidget = (mediaProvider?.providerFor(itemImageUri)
+            as AssetImageAttachmentProvider?)
+        ?.getImage(itemImageUri, width: width, height: height);
     if (itemImageWidget == null) {
       _logger.warn('Could not find image asset for $itemImageUri.');
 

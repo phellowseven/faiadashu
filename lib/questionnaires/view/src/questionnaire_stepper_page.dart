@@ -1,4 +1,5 @@
 import 'package:faiadashu/questionnaires/questionnaires.dart';
+import 'package:faiadashu/resource_provider/resource_provider.dart';
 import 'package:flutter/material.dart';
 
 /// A page, incl. a [Scaffold], that presents a questionnaire in the style of a wizard.
@@ -7,13 +8,19 @@ import 'package:flutter/material.dart';
 /// see [QuestionnaireScrollerPage]
 class QuestionnaireStepperPage extends QuestionnaireStepper {
   const QuestionnaireStepperPage({
-    super.locale,
-    required super.fhirResourceProvider,
-    required super.launchContext,
-    super.questionnaireModelDefaults,
-    super.key,
+    Locale? locale,
+    required FhirResourceProvider fhirResourceProvider,
+    required LaunchContext launchContext,
+    QuestionnaireModelDefaults questionnaireModelDefaults =
+        const QuestionnaireModelDefaults(),
+    Key? key,
   }) : super(
+          locale: locale,
           scaffoldBuilder: const DefaultQuestionnairePageScaffoldBuilder(),
+          fhirResourceProvider: fhirResourceProvider,
+          launchContext: launchContext,
+          questionnaireModelDefaults: questionnaireModelDefaults,
+          key: key,
         );
 
   @override

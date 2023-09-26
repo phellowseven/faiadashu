@@ -24,17 +24,18 @@ class QuestionnaireResponseFiller extends StatefulWidget {
   final FhirResourceProvider fhirResourceProvider;
   final LaunchContext launchContext;
 
-  Future<QuestionnaireResponseModel> _createQuestionnaireResponseModel() async =>
-      QuestionnaireResponseModel.fromFhirResourceBundle(
-        locale: locale,
-        aggregators: aggregators,
-        fhirResourceProvider: fhirResourceProvider,
-        launchContext: launchContext,
-        questionnaireModelDefaults: questionnaireModelDefaults,
-      );
+  Future<QuestionnaireResponseModel>
+      _createQuestionnaireResponseModel() async =>
+          QuestionnaireResponseModel.fromFhirResourceBundle(
+            locale: locale,
+            aggregators: aggregators,
+            fhirResourceProvider: fhirResourceProvider,
+            launchContext: launchContext,
+            questionnaireModelDefaults: questionnaireModelDefaults,
+          );
 
   const QuestionnaireResponseFiller({
-    super.key,
+    Key? key,
     required this.locale,
     required this.builder,
     required this.fhirResourceProvider,
@@ -44,10 +45,11 @@ class QuestionnaireResponseFiller extends StatefulWidget {
     this.onLinkTap,
     this.questionnaireTheme = const QuestionnaireThemeData(),
     this.questionnaireModelDefaults = const QuestionnaireModelDefaults(),
-  });
+  }) : super(key: key);
 
   static QuestionnaireFillerData of(BuildContext context) {
-    final result = context.dependOnInheritedWidgetOfExactType<QuestionnaireFillerData>();
+    final result =
+        context.dependOnInheritedWidgetOfExactType<QuestionnaireFillerData>();
     assert(result != null, 'No QuestionnaireFillerData found in context');
 
     return result!;
@@ -55,10 +57,12 @@ class QuestionnaireResponseFiller extends StatefulWidget {
 
   @override
   // ignore: library_private_types_in_public_api
-  _QuestionnaireResponseFillerState createState() => _QuestionnaireResponseFillerState();
+  _QuestionnaireResponseFillerState createState() =>
+      _QuestionnaireResponseFillerState();
 }
 
-class _QuestionnaireResponseFillerState extends State<QuestionnaireResponseFiller> {
+class _QuestionnaireResponseFillerState
+    extends State<QuestionnaireResponseFiller> {
   static final _logger = Logger(_QuestionnaireResponseFillerState);
 
   late final Future<QuestionnaireResponseModel> builderFuture;
@@ -96,7 +100,8 @@ class _QuestionnaireResponseFillerState extends State<QuestionnaireResponseFille
   }
 
   void _handleQuestionnaireResponseModelStructuralChange() {
-    _logger.debug('Response model structure has changed. Updating filler views.');
+    _logger
+        .debug('Response model structure has changed. Updating filler views.');
 
     if (mounted) {
       // This operation is very expensive. Make sure the code only reaches it
@@ -152,10 +157,12 @@ class _QuestionnaireResponseFillerState extends State<QuestionnaireResponseFille
               _questionnaireResponseModel = snapshot.data;
 
               // OPTIMIZE: There has got to be a more elegant way? Goal is to register the listener exactly once, after the future has completed.
-              if (_handleQuestionnaireResponseModelChangeListenerFunction == null) {
+              if (_handleQuestionnaireResponseModelChangeListenerFunction ==
+                  null) {
                 _handleQuestionnaireResponseModelChangeListenerFunction =
                     () => _handleQuestionnaireResponseModelStructuralChange();
-                _questionnaireResponseModel?.structuralChangeNotifier.addListener(
+                _questionnaireResponseModel?.structuralChangeNotifier
+                    .addListener(
                   _handleQuestionnaireResponseModelChangeListenerFunction!,
                 );
 
@@ -187,7 +194,7 @@ class QuestionnaireFillerData extends InheritedWidget {
   final Locale locale;
   final QuestionnaireResponseModel questionnaireResponseModel;
   // TODO: Should this copy exist, or just refer to the qrm as the source of truth?
-  final Iterable<FillerItemModel> fillerItemModels;
+  final List<FillerItemModel> fillerItemModels;
 
   final void Function(BuildContext context, Uri url)? onLinkTap;
   final void Function(QuestionnaireResponseModel)? onDataAvailable;
@@ -198,6 +205,7 @@ class QuestionnaireFillerData extends InheritedWidget {
 
   QuestionnaireFillerData._(
     this.questionnaireResponseModel, {
+    Key? key,
     required this.locale,
     this.onDataAvailable,
     this.onLinkTap,
@@ -209,7 +217,7 @@ class QuestionnaireFillerData extends InheritedWidget {
           questionnaireResponseModel.orderedFillerItemModels().length,
           null,
         ),
-        super(child: Builder(builder: builder)) {
+        super(key: key, child: Builder(builder: builder)) {
     _logger.trace('constructor _');
     onDataAvailable?.call(questionnaireResponseModel);
   }
@@ -267,6 +275,41 @@ class QuestionnaireFillerData extends InheritedWidget {
     }
 
     return _itemFillers[index]!;
+  }
+
+  /// Returns the index of the [visibleIndex]-th item that is currently visible, taking into
+  /// account items shown/hidden due to SDC hidden extensions, enableWhen clauses, etc.
+  ///
+  /// If [rootsOnly] is true, it will return the index of the [visibleIndex]-th root item
+  /// that is currently visible.
+  int indexOfVisibleItemAt(int visibleIndex, {bool rootsOnly = false}) {
+    final visibleItems = fillerItemModels
+      .where((item) => item.displayVisibility != DisplayVisibility.hidden)
+      .where((item) => !rootsOnly || item.parentNode == null)
+      .toList(growable: false);
+
+    return visibleItems.length > visibleIndex ? fillerItemModels.indexOf(visibleItems[visibleIndex]) : -1;
+  }
+
+  /// Returns the [QuestionnaireItemFiller] of the [visibleIndex]-th item that is currently
+  /// visible.
+  QuestionnaireItemFiller? visibleItemFillerAt(int visibleIndex) {
+    final index = indexOfVisibleItemAt(visibleIndex);
+
+    return index < 0 ? null : itemFillerAt(index);
+  }
+
+  /// Returns the integer range of items corresponding to the [visibleRootIndex]-th root item
+  /// that is currently visible and its nested subitems.
+  List<int> itemRangeOfVisibleRootItemAt(int visibleRootIndex) {
+    final rootIndex = indexOfVisibleItemAt(visibleRootIndex, rootsOnly: true);
+    if (rootIndex < 0) return [-1, -1];
+
+    final descendantsCount = fillerItemModels
+      .where((item) => item.rootNode == fillerItemModels[rootIndex])
+      .length;
+
+    return [rootIndex, rootIndex + descendantsCount + 1];
   }
 
   @override

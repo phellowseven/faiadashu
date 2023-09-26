@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 class JsonTree extends StatefulWidget {
   final Resource resource;
 
-  const JsonTree(this.resource, {super.key});
+  const JsonTree(this.resource, {Key? key}) : super(key: key);
 
   @override
   // ignore: library_private_types_in_public_api

@@ -9,7 +9,7 @@ import 'package:flutter/services.dart';
 /// "Drawer" which contains the narrative for a questionnaire.
 /// To be used with the drawer or endDrawer parameter of a [Scaffold].
 class NarrativeDrawer extends StatefulWidget {
-  const NarrativeDrawer({super.key});
+  const NarrativeDrawer({Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => _NarrativeDrawerState();
@@ -60,13 +60,6 @@ class _NarrativeDrawerState extends State<NarrativeDrawer> {
                     secondary: IconButton(
                       icon: const Icon(Icons.copy),
                       onPressed: () {
-                        String? tmpNarrativeAggregator =
-                            QuestionnaireResponseFiller.of(context)
-                                .aggregator<NarrativeAggregator>()
-                                .aggregate()
-                                ?.div;
-                        tmpNarrativeAggregator ??= "Label";
-
                         Clipboard.setData(
                           ClipboardData(
                             text: _drawerMode
@@ -77,7 +70,11 @@ class _NarrativeDrawerState extends State<NarrativeDrawer> {
                                         .aggregate(containPatient: true)
                                         ?.toJson(),
                                   )
-                                : tmpNarrativeAggregator,
+                                : QuestionnaireResponseFiller.of(context)
+                                        .aggregator<NarrativeAggregator>()
+                                        .aggregate()
+                                        ?.div ??
+                                    '',
                           ),
                         ).then((_) {
                           ScaffoldMessenger.of(context).showSnackBar(

@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:collection/collection.dart';
+import 'package:faiadashu/extensions/string_extension.dart';
 import 'package:faiadashu/logging/logging.dart';
 import 'package:fhir/r4.dart';
 import 'package:intl/intl.dart';
@@ -12,7 +13,8 @@ extension FDashTimeExtension on Time {
       return defaultText;
     }
 
-    return DateFormat.jm(localeCode).format(DateTime.parse('19700101T${toString()}'));
+    return DateFormat.jm(localeCode)
+        .format(DateTime.parse('19700101T${toString()}'));
   }
 }
 
@@ -39,7 +41,7 @@ extension FDashDateExtension on Date {
 }
 
 extension FDashDateTimeExtension on FhirDateTime {
-  String format(Locale locale, {String defaultText = ''}) {
+  String format(Locale locale, {String defaultText = '', bool withTimeZone = false}) {
     final localeCode = locale.toString();
     final DateFormat dateFormat;
     final japanese = locale.languageCode == 'ja';
@@ -52,17 +54,30 @@ extension FDashDateTimeExtension on FhirDateTime {
             : DateFormat('y年M月d日', localeCode).add_jm();
         break;
       case DateTimePrecision.YYYY:
-        dateFormat = (!japanese) ? DateFormat.y(localeCode) : DateFormat('y年', localeCode);
+        dateFormat = (!japanese)
+            ? DateFormat.y(localeCode)
+            : DateFormat('y年', localeCode);
         break;
       case DateTimePrecision.YYYYMM:
-        dateFormat = (!japanese) ? DateFormat.yM(localeCode) : DateFormat('y年M月', localeCode);
+        dateFormat = (!japanese)
+            ? DateFormat.yM(localeCode)
+            : DateFormat('y年M月', localeCode);
         break;
       case DateTimePrecision.YYYYMMDD:
-        dateFormat = (!japanese) ? DateFormat.yMd(localeCode) : DateFormat('y年M月d日', localeCode);
+        dateFormat = (!japanese)
+            ? DateFormat.yMd(localeCode)
+            : DateFormat('y年M月d日', localeCode);
         break;
     }
 
-    return dateFormat.format(value!);
+    // Dart only supports UTC or local times, even if the value is parsed from a
+    // datetime string with time zone info.
+    final localDateTime = value!.toLocal();
+    final formattedValue = dateFormat.format(localDateTime);
+
+    return withTimeZone
+      ? '$formattedValue (${localDateTime.timeZoneName})'
+      : formattedValue;
   }
 }
 
@@ -139,25 +154,7 @@ extension FDashCodingExtension on Coding {
   /// Localized access to display value.
   /// TODO: Currently only matches by language.
   String localizedDisplay(Locale locale) {
-    // TODO: Carve this out to be used in other places (titles).
-    final translationExtension = displayElement?.extension_?.firstWhereOrNull(
-      (transExt) =>
-          transExt.url == FhirUri('http://hl7.org/fhir/StructureDefinition/translation') &&
-          transExt.extension_?.firstWhereOrNull(
-                (ext) =>
-                    (ext.url == FhirUri('lang')) && (ext.valueCode?.value == locale.languageCode),
-              ) !=
-              null,
-    );
-
-    if (translationExtension != null) {
-      final contentString =
-          translationExtension.extension_?.extensionOrNull('content')?.valueString;
-
-      return ArgumentError.checkNotNull(contentString);
-    }
-
-    return display ?? code?.value ?? toString();
+    return display?.translate(displayElement?.extension_, locale) ?? code?.value ?? toString();
   }
 }
 
@@ -173,12 +170,17 @@ extension FDashListCodingExtension on List<Coding> {
 extension FDashCodeableConceptExtension on CodeableConcept {
   /// Localized access to display value
   String localizedDisplay(Locale locale) {
-    return coding?.firstOrNull?.display ?? text ?? coding?.firstOrNull?.code?.value ?? toString();
+    return coding?.firstOrNull?.display ??
+        text ??
+        coding?.firstOrNull?.code?.value ??
+        toString();
   }
 
   bool containsCoding(String? system, String code) {
     return coding?.firstWhereOrNull(
-          (coding) => (coding.code?.toString() == code) && (coding.system?.toString() == system),
+          (_coding) =>
+              (_coding.code?.toString() == code) &&
+              (_coding.system?.toString() == system),
         ) !=
         null;
   }
@@ -265,6 +267,30 @@ extension FDashListFhirExtensionExtension on List<FhirExtension> {
       });
     } else if (key is FhirUri) {
       return firstWhereOrNull((ext) {
+        return ext.url == key;
+      });
+    } else {
+      throw ArgumentError.value(
+        key,
+        'key',
+        'Only String and FhirUri are supported as key.',
+      );
+    }
+  }
+
+  /// Returns all extensions with the given URI, or null if key is null.
+  /// TODO: Refactor some logic extensionOrNull
+  Iterable<FhirExtension>? whereExtensionIs(Object? key) {
+    if (key == null) {
+      return null;
+    }
+
+    if (key is String) {
+      return where((ext) {
+        return ext.url == FhirUri(key);
+      });
+    } else if (key is FhirUri) {
+      return where((ext) {
         return ext.url == key;
       });
     } else {

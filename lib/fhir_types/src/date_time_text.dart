@@ -14,13 +14,14 @@ class FhirDateTimeText extends StatelessWidget {
     this.style,
     this.defaultText = '',
     this.locale,
-    super.key,
-  });
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Text(
-      dateTime?.format(locale ?? Localizations.localeOf(context)) ?? defaultText,
+      dateTime?.format(locale ?? Localizations.localeOf(context)) ??
+          defaultText,
       style: style,
     );
   }

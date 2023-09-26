@@ -13,7 +13,8 @@ class SyncIndicator extends StatefulWidget {
   _SyncIndicatorState createState() => _SyncIndicatorState();
 }
 
-class _SyncIndicatorState extends State<SyncIndicator> with SingleTickerProviderStateMixin {
+class _SyncIndicatorState extends State<SyncIndicator>
+    with SingleTickerProviderStateMixin {
   final _ingKey = UniqueKey();
   late final AnimationController _animationController;
 
@@ -21,8 +22,9 @@ class _SyncIndicatorState extends State<SyncIndicator> with SingleTickerProvider
   void initState() {
     super.initState();
 
-    _animationController = AnimationController(vsync: this, duration: const Duration(seconds: 2))
-      ..repeat();
+    _animationController =
+        AnimationController(vsync: this, duration: const Duration(seconds: 2))
+          ..repeat();
   }
 
   @override
@@ -36,10 +38,10 @@ class _SyncIndicatorState extends State<SyncIndicator> with SingleTickerProvider
     return AnimatedBuilder(
       key: _ingKey,
       animation: _animationController,
-      builder: (BuildContext context, Widget? widget) {
+      builder: (BuildContext context, Widget? _widget) {
         return Transform.rotate(
           angle: _animationController.value * 2 * pi,
-          child: widget,
+          child: _widget,
         );
       },
       child: Icon(Icons.sync, color: widget.color),

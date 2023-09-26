@@ -1,5 +1,6 @@
 name: faiadashu
 description: Faiadashu FHIRDash - Build beautiful healthcare apps fast — use the Flutter™ SDK and follow the HL7® FHIR® standard.
+publish_to: "none" # Remove this line if you wish to publish to pub.dev
 
 # The following line prevents the package from being accidentally published to
 # pub.dev using `pub publish`. This is preferred for private packages.
@@ -20,29 +21,39 @@ repository: https://github.com/tiloc/faiadashu
 issue_tracker: https://github.com/tiloc/faiadashu/issues
 
 environment:
-  sdk: ">=2.17.0 <3.0.0"
-  flutter: ">=3.0.0"
+  sdk: '>=2.17.0 <3.0.0'
+  flutter: '>=3.0.0'
 
 dependencies:
   collection: ^1.16.0
+
   fhir: ^0.8.0
-  fhir_path: ^0.8.0
-  #  fhir:
-  #    path: /Users/tilo/Projects/fhir/fhir
-  #  fhir_path:
-  #    path: /Users/tilo/Projects/fhir/fhir_path
+  # fhir_path: ^0.8.0
+  fhir_path:
+    git:
+      url: https://github.com/phellowseven/fhir.git
+      ref: main
+      path: fhir_path
+      # url: https://github.com/MayJuun/fhir.git
+      # ref: fa9b061
+      # path: fhir_path
+    # path: ../fhir/fhir_path
+
+  file_selector: ^0.9.5
+  filesize: ^2.0.1
   flutter:
     sdk: flutter
   flutter_localizations:
     sdk: flutter
-  intl: ^0.18.1
+  intl: ^0.18.0
   logging: ^1.0.2
   markdown: ^5.0.0
   meta: ^1.7.0
+  mime: ^1.0.4
   scrollable_positioned_list: ^0.3.2
   simple_html_css: ^4.0.0
-  webview_flutter: ^3.0.4
-  webview_flutter_web: ^0.1.0+3
+  webview_flutter: ^4.2.4
+  webview_flutter_web: ^0.2.2+3
 
 dev_dependencies:
   dart_code_metrics: ^4.15.0

@@ -12,9 +12,9 @@ import 'package:simple_html_css/simple_html_css.dart';
 /// sundhed.dk questionnaire-feedback extension.
 class TotalScoreItem extends QuestionnaireAnswerFiller {
   TotalScoreItem(
-    super.answerModel, {
-    super.key,
-  });
+    AnswerModel answerModel, {
+    Key? key,
+  }) : super(answerModel, key: key);
   @override
   State<StatefulWidget> createState() => _TotalScoreItemState();
 }
@@ -27,7 +27,10 @@ class _TotalScoreItemState extends State<TotalScoreItem> {
   _TotalScoreItemState();
 
   void _updateCalcResult() {
-    calcResult = (widget.responseItemModel.firstAnswerModel as NumericalAnswerModel).value?.value;
+    calcResult =
+        (widget.responseItemModel.firstAnswerModel as NumericalAnswerModel)
+            .value
+            ?.value;
   }
 
   @override
@@ -73,12 +76,15 @@ class _TotalScoreItemState extends State<TotalScoreItem> {
     if (score == null) {
       return null;
     }
-    final matchExtension = widget.questionnaireItemModel.questionnaireItem.extension_?.firstWhere(
+    final matchExtension =
+        widget.questionnaireItemModel.questionnaireItem.extension_?.firstWhere(
       (ext) {
         return (ext.url?.value.toString() ==
                 'http://ehealth.sundhed.dk/fhir/StructureDefinition/ehealth-questionnaire-feedback') &&
-            (ext.extension_!.extensionOrNull('min')!.valueInteger!.value! <= score) &&
-            (ext.extension_!.extensionOrNull('max')!.valueInteger!.value! >= score);
+            (ext.extension_!.extensionOrNull('min')!.valueInteger!.value! <=
+                score) &&
+            (ext.extension_!.extensionOrNull('max')!.valueInteger!.value! >=
+                score);
       },
       orElse: () => _nullExtension,
     );

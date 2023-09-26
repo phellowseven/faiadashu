@@ -12,7 +12,7 @@ abstract class Aggregator<T> extends ValueNotifier<T> {
 
   /// [autoAggregate] specifies whether it should attach listeners to the
   /// questionnaire and aggregate when the questionnaire changes.
-  Aggregator(super.initialValue, {this.autoAggregate = true});
+  Aggregator(T initialValue, {this.autoAggregate = true}) : super(initialValue);
 
   // ignore: use_setters_to_change_properties
   /// Initialize the aggregator.

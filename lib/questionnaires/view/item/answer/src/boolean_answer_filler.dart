@@ -11,8 +11,8 @@ class BooleanAnswerFiller extends QuestionnaireAnswerFiller {
   State<StatefulWidget> createState() => _BooleanItemState();
 }
 
-class _BooleanItemState
-    extends QuestionnaireAnswerFillerState<Boolean, BooleanAnswerFiller, BooleanAnswerModel> {
+class _BooleanItemState extends QuestionnaireAnswerFillerState<Boolean,
+    BooleanAnswerFiller, BooleanAnswerModel> {
   _BooleanItemState();
 
   @override
@@ -30,24 +30,26 @@ class _BooleanItemState
 
 class _BooleanInputControl extends AnswerInputControl<BooleanAnswerModel> {
   const _BooleanInputControl(
-    super.answerModel, {
-    super.focusNode,
-  });
+    BooleanAnswerModel answerModel, {
+    FocusNode? focusNode,
+  }) : super(
+          answerModel,
+          focusNode: focusNode,
+        );
 
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const SizedBox(
-          height: 8,
-        ),
         Checkbox(
           focusNode: focusNode,
           value: (answerModel.isTriState)
               ? answerModel.value?.value
               : (answerModel.value?.value != null),
-          activeColor: (answerModel.displayErrorText != null) ? Theme.of(context).errorColor : null,
+          activeColor: (answerModel.displayErrorText != null)
+              ? Theme.of(context).errorColor
+              : null,
           tristate: answerModel.isTriState,
           onChanged: (answerModel.isControlEnabled)
               ? (newValue) {
@@ -63,8 +65,10 @@ class _BooleanInputControl extends AnswerInputControl<BooleanAnswerModel> {
         if (answerModel.displayErrorText != null)
           Text(
             answerModel.displayErrorText!,
-            style:
-                Theme.of(context).textTheme.caption!.copyWith(color: Theme.of(context).errorColor),
+            style: Theme.of(context)
+                .textTheme
+                .caption!
+                .copyWith(color: Theme.of(context).errorColor),
           ),
       ],
     );

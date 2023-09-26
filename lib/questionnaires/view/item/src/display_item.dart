@@ -5,10 +5,10 @@ import 'package:flutter/material.dart';
 /// A view for filler items of type "display".
 class DisplayItem extends QuestionnaireItemFiller {
   DisplayItem(
-    super.questionnaireFiller,
-    super.fillerItem, {
-    super.key,
-  });
+    QuestionnaireFillerData questionnaireFiller,
+    FillerItemModel fillerItem, {
+    Key? key,
+  }) : super(questionnaireFiller, fillerItem, key: key);
   @override
   State<StatefulWidget> createState() => _DisplayItemState();
 }
@@ -29,14 +29,12 @@ class _DisplayItemState extends QuestionnaireItemFillerState<DisplayItem> {
     return AnimatedBuilder(
       animation: widget.fillerItemModel,
       builder: (context, _) {
-        return widget.fillerItemModel.displayVisibility != DisplayVisibility.hidden
-            ? Column(
-                children: [
-                  if (titleWidget != null) titleWidget,
-                  const SizedBox(
-                    height: 16.0,
-                  ),
-                ],
+        return widget.fillerItemModel.displayVisibility !=
+                DisplayVisibility.hidden
+            ? QuestionnaireTheme.of(context).displayItemLayoutBuilder(
+                context,
+                widget.fillerItemModel as DisplayItemModel,
+                titleWidget: titleWidget,
               )
             : const SizedBox.shrink();
       },

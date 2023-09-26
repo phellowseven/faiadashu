@@ -15,8 +15,8 @@ class QuestionnaireItemFillerTitle extends StatelessWidget {
     this.leading,
     this.help,
     required this.semanticsLabel,
-    super.key,
-  });
+    Key? key,
+  }) : super(key: key);
 
   static Widget? fromFillerItem({
     required FillerItemModel fillerItem,
@@ -29,7 +29,8 @@ class QuestionnaireItemFillerTitle extends StatelessWidget {
     if (text == null) {
       return null;
     } else {
-      final leading = _QuestionnaireItemFillerTitleLeading.fromFillerItem(fillerItem);
+      final leading =
+          _QuestionnaireItemFillerTitleLeading.fromFillerItem(fillerItem);
       final help = _createHelp(questionnaireItemModel);
 
       final requiredTag = (questionnaireItemModel.isRequired) ? '*' : '';
@@ -69,7 +70,6 @@ class QuestionnaireItemFillerTitle extends StatelessWidget {
 
     return Container(
       alignment: AlignmentDirectional.centerStart,
-      padding: const EdgeInsets.only(top: 8.0),
       child: Row(
         children: [
           Expanded(
@@ -131,13 +131,14 @@ class QuestionnaireItemFillerTitle extends StatelessWidget {
 class _QuestionnaireItemFillerHelp extends StatefulWidget {
   final QuestionnaireItemModel ql;
 
-  const _QuestionnaireItemFillerHelp(this.ql, {super.key});
+  const _QuestionnaireItemFillerHelp(this.ql, {Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => _QuestionnaireItemFillerHelpState();
 }
 
-class _QuestionnaireItemFillerHelpState extends State<_QuestionnaireItemFillerHelp> {
+class _QuestionnaireItemFillerHelpState
+    extends State<_QuestionnaireItemFillerHelp> {
   @override
   Widget build(BuildContext context) {
     return IconButton(
@@ -183,7 +184,8 @@ class _QuestionnaireItemFillerSupportLink extends StatelessWidget {
   static final _logger = Logger(_QuestionnaireItemFillerSupportLink);
   final Uri supportLink;
 
-  const _QuestionnaireItemFillerSupportLink(this.supportLink, {super.key});
+  const _QuestionnaireItemFillerSupportLink(this.supportLink, {Key? key})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -192,7 +194,9 @@ class _QuestionnaireItemFillerSupportLink extends StatelessWidget {
       icon: const Icon(Icons.help),
       onPressed: () {
         _logger.debug("supportLink '${supportLink.toString()}'");
-        QuestionnaireResponseFiller.of(context).onLinkTap?.call(context, supportLink);
+        QuestionnaireResponseFiller.of(context)
+            .onLinkTap
+            ?.call(context, supportLink);
       },
     );
   }
@@ -200,8 +204,9 @@ class _QuestionnaireItemFillerSupportLink extends StatelessWidget {
 
 class _QuestionnaireItemFillerTitleLeading extends StatelessWidget {
   final Widget _leadingWidget;
-  const _QuestionnaireItemFillerTitleLeading._(Widget leadingWidget)
-      : _leadingWidget = leadingWidget;
+  const _QuestionnaireItemFillerTitleLeading._(Widget leadingWidget, {Key? key})
+      : _leadingWidget = leadingWidget,
+        super(key: key);
 
   static Widget? fromFillerItem(
     FillerItemModel fillerItemModel, {

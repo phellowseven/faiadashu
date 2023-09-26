@@ -5,7 +5,7 @@ import 'fdash_localizations.g.dart';
 
 /// The translations for English (`en`).
 class FDashLocalizationsFr extends FDashLocalizations {
-  FDashLocalizationsFr([super.locale = 'fr']);
+  FDashLocalizationsFr([String locale = 'fr']) : super(locale);
 
   @override
   String get validatorRequiredItem => 'Remplissez ce champ obligatoire.';
@@ -100,6 +100,16 @@ class FDashLocalizationsFr extends FDashLocalizations {
   @override
   String validatorSingleSelectionOrSingleOpenString(Object openLabel) {
     return 'Sélectionnez une option ou saisissez un texte libre dans \"$openLabel\".';
+  }
+
+  @override
+  String validatorMaxSize(String maxSize) {
+    return 'Sélectionnez un fichier sous $maxSize.';
+  }
+
+  @override
+  String validatorMimeTypes(String mimeTypes) {
+    return 'Sélectionnez un fichier de l\'un des types suivants: $mimeTypes.';
   }
 
   @override

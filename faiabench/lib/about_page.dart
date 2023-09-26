@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:simple_html_css/simple_html_css.dart';
 
 class AboutPage extends ExhibitPage {
-  const AboutPage({super.key});
+  const AboutPage({Key? key}) : super(key: key);
 
   @override
   Widget buildExhibit(BuildContext context) {

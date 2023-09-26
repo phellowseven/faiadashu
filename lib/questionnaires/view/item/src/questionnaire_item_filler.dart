@@ -10,11 +10,13 @@ abstract class QuestionnaireItemFiller extends StatefulWidget {
   QuestionnaireItemFiller(
     QuestionnaireFillerData questionnaireFiller,
     this.fillerItemModel, {
-    super.key,
-  }) : questionnaireTheme = questionnaireFiller.questionnaireTheme;
+    Key? key,
+  })  : questionnaireTheme = questionnaireFiller.questionnaireTheme,
+        super(key: key);
 }
 
-abstract class QuestionnaireItemFillerState<W extends QuestionnaireItemFiller> extends State<W> {
+abstract class QuestionnaireItemFillerState<W extends QuestionnaireItemFiller>
+    extends State<W> {
   late final Widget? _titleWidget;
   Widget? get titleWidget => _titleWidget;
 

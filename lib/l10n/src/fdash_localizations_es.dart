@@ -5,7 +5,7 @@ import 'fdash_localizations.g.dart';
 
 /// The translations for Spanish Castilian (`es`).
 class FDashLocalizationsEs extends FDashLocalizations {
-  FDashLocalizationsEs([super.locale = 'es']);
+  FDashLocalizationsEs([String locale = 'es']) : super(locale);
 
   @override
   String get validatorRequiredItem => 'Esta pregunta debe ser completada.';
@@ -30,7 +30,8 @@ class FDashLocalizationsEs extends FDashLocalizations {
   }
 
   @override
-  String get validatorUrl => 'Introduzca una URL válida con el formato https://...';
+  String get validatorUrl =>
+      'Introduzca una URL válida con el formato https://...';
 
   @override
   String get validatorRegExp => 'Introduzca una respuesta válida.';
@@ -103,7 +104,18 @@ class FDashLocalizationsEs extends FDashLocalizations {
   }
 
   @override
-  String get dataAbsentReasonAskedDeclinedInputLabel => 'I choose not to answer.';
+  String validatorMaxSize(String maxSize) {
+    return 'Select a file under $maxSize.';
+  }
+
+  @override
+  String validatorMimeTypes(String mimeTypes) {
+    return 'Select a file of the following types: $mimeTypes.';
+  }
+
+  @override
+  String get dataAbsentReasonAskedDeclinedInputLabel =>
+      'I choose not to answer.';
 
   @override
   String get dataAbsentReasonAskedDeclinedOutput => 'Declined to answer';
