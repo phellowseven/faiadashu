@@ -159,7 +159,7 @@ class _MapNodeState extends _JsonNodeState<_JsonViewerMapNode> {
           ),
           Text(
             widget.nodeName,
-            style: Theme.of(context).textTheme.bodyText1,
+            style: Theme.of(context).textTheme.bodyLarge,
           ),
         ],
       ),
@@ -235,16 +235,16 @@ class _JsonViewerListNodeState extends _JsonNodeState<_JsonViewerListNode> {
             ),
           Text(
             widget.nodeName,
-            style: Theme.of(context).textTheme.bodyText1,
+            style: Theme.of(context).textTheme.bodyLarge,
           ),
           Text(
             ' ($count)',
             style: (count > 0)
                 ? TextStyle(
-                    color: themeData.textTheme.bodyText1?.color
+                    color: themeData.textTheme.bodyLarge?.color
                         ?.withOpacity(variant600Opacity),
                   )
-                : TextStyle(color: themeData.errorColor),
+                : TextStyle(color: themeData.colorScheme.error),
           ),
         ],
       ),
@@ -278,15 +278,15 @@ class _JsonViewerGenericNode extends StatelessWidget {
   Widget build(BuildContext context) {
     final themeData = Theme.of(context);
 
-    var color = themeData.textTheme.bodyText1?.color;
+    var color = themeData.textTheme.bodyLarge?.color;
     if (nodeValue == null) {
-      color = themeData.errorColor;
+      color = themeData.colorScheme.error;
     } else {
       switch (nodeValue.runtimeType) {
         case bool:
           color = (nodeValue as bool)
               ? themeData.colorScheme.secondary
-              : themeData.errorColor;
+              : themeData.colorScheme.error;
           break;
         case int:
           color = themeData.colorScheme.secondary;
@@ -309,7 +309,7 @@ class _JsonViewerGenericNode extends StatelessWidget {
           Text(
             nodeName,
             style: TextStyle(
-              color: themeData.textTheme.bodyText1?.color
+              color: themeData.textTheme.bodyLarge?.color
                   ?.withOpacity(variant600Opacity),
             ),
           ),

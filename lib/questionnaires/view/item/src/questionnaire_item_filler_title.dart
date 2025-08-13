@@ -90,7 +90,7 @@ class QuestionnaireItemFillerTitle extends StatelessWidget {
                   HTML.toTextSpan(
                     context,
                     htmlTitleText,
-                    defaultTextStyle: Theme.of(context).textTheme.bodyText2,
+                    defaultTextStyle: Theme.of(context).textTheme.bodyMedium,
                   ),
                 ],
               ),
@@ -162,7 +162,7 @@ class _QuestionnaireItemFillerHelpState
           content: Xhtml.fromRenderingString(
             context,
             questionnaireItemModel.text ?? RenderingString.nullText,
-            defaultTextStyle: Theme.of(context).textTheme.bodyText2,
+            defaultTextStyle: Theme.of(context).textTheme.bodyMedium,
           ),
           actions: <Widget>[
             OutlinedButton(

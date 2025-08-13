@@ -594,7 +594,7 @@ class _OpenStringInputControlState extends State<_OpenStringInputControl> {
           answerModel.openLabel,
           defaultTextStyle: Theme.of(context)
               .textTheme
-              .bodyText2
+              .bodyMedium
               ?.copyWith(fontWeight: FontWeight.w500),
         ),
         const SizedBox(

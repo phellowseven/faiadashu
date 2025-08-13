@@ -98,7 +98,7 @@ class _StringAnswerInputControl extends AnswerInputControl<StringAnswerModel> {
         errorStyle: (itemModel
                 .isCalculated) // Force display of error text on calculated item
             ? TextStyle(
-                color: Theme.of(context).errorColor,
+                color: Theme.of(context).colorScheme.error,
               )
             : null,
         hintText: answerModel.entryFormat,
@@ -106,7 +106,7 @@ class _StringAnswerInputControl extends AnswerInputControl<StringAnswerModel> {
             ? Icon(
                 Icons.calculate,
                 color: (answerModel.displayErrorText != null)
-                    ? Theme.of(context).errorColor
+                    ? Theme.of(context).colorScheme.error
                     : null,
               )
             : null,

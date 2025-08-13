@@ -69,7 +69,7 @@ class _DateTimeInputControl extends AnswerInputControl<DateTimeAnswerModel> {
         errorStyle: (itemModel
                 .isCalculated) // Force display of error text on calculated item
             ? TextStyle(
-                color: Theme.of(context).errorColor,
+                color: Theme.of(context).colorScheme.error,
               )
             : null,
       ),

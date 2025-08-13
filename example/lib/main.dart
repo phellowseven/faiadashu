@@ -171,7 +171,7 @@ class _HomePageState extends State<HomePage> {
               title,
               style: Theme.of(context)
                   .textTheme
-                  .headline6
+                  .titleLarge
                   ?.copyWith(fontWeight: FontWeight.bold),
             ),
             Text(subtitle)

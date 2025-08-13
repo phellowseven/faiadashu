@@ -16,8 +16,8 @@ class CherryBlossomScaffoldBuilder extends QuestionnairePageScaffoldBuilder {
     return Theme(
       data: ThemeData.light().copyWith(
         scrollbarTheme: ThemeData.light().scrollbarTheme.copyWith(
-          thumbVisibility: MaterialStateProperty.all(true),
-          thumbColor: MaterialStateProperty.all(
+          thumbVisibility: WidgetStateProperty.all(true),
+          thumbColor: WidgetStateProperty.all(
             const Color(0xFF5C1349),
           ),
         ),
@@ -27,13 +27,13 @@ class CherryBlossomScaffoldBuilder extends QuestionnairePageScaffoldBuilder {
         ),
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ButtonStyle(
-            textStyle: MaterialStateProperty.all(
+            textStyle: WidgetStateProperty.all(
               GoogleFonts.raleway(fontWeight: FontWeight.w600),
             ),
-            backgroundColor: MaterialStateProperty.all(
+            backgroundColor: WidgetStateProperty.all(
               const Color(0xFF5C1349),
             ),
-            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+            shape: WidgetStateProperty.all<RoundedRectangleBorder>(
               RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(18.0),
               ),
@@ -41,12 +41,12 @@ class CherryBlossomScaffoldBuilder extends QuestionnairePageScaffoldBuilder {
           ),
         ),
         checkboxTheme: ThemeData.light().checkboxTheme.copyWith(
-          fillColor: MaterialStateProperty.all(
+          fillColor: WidgetStateProperty.all(
             const Color(0xFFE30425),
           ),
         ),
         radioTheme: ThemeData.light().radioTheme.copyWith(
-          fillColor: MaterialStateProperty.all(
+          fillColor: WidgetStateProperty.all(
             const Color(0xFFE30425),
           ),
         ),
@@ -71,13 +71,13 @@ class CherryBlossomScaffoldBuilder extends QuestionnairePageScaffoldBuilder {
           focusedErrorBorder: OutlineInputBorder(
             borderSide: BorderSide(
               width: 2.0,
-              color: ThemeData.light().errorColor,
+              color: ThemeData.light().colorScheme.error,
             ),
           ),
           errorBorder: OutlineInputBorder(
             borderSide: BorderSide(
               width: 2.0,
-              color: ThemeData.light().errorColor.withOpacity(0.12),
+              color: ThemeData.light().colorScheme.error.withOpacity(0.12),
             ),
           ),
           focusedBorder: const OutlineInputBorder(
@@ -101,7 +101,7 @@ class CherryBlossomScaffoldBuilder extends QuestionnairePageScaffoldBuilder {
                 padding: const EdgeInsets.symmetric(vertical: 8),
                 child: Text(
                   '🦄🌸🦄🌸🦄🌸🦄',
-                  style: Theme.of(context).textTheme.headline4,
+                  style: Theme.of(context).textTheme.headlineMedium,
                 ),
               ),
               Expanded(

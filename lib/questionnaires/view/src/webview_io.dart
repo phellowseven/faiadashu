@@ -69,7 +69,7 @@ class _SimpleHtmlViewer extends StatelessWidget {
         child: HTML.toRichText(
           context,
           xhtml,
-          defaultTextStyle: Theme.of(context).textTheme.bodyText2,
+          defaultTextStyle: Theme.of(context).textTheme.bodyMedium,
         ),
       ),
     );

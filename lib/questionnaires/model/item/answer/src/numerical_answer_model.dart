@@ -191,7 +191,7 @@ class NumericalAnswerModel extends AnswerModel<String, Quantity> {
     } catch (_) {
       // Ignore FormatException, number remains nan.
     }
-    if (number == double.nan) {
+    if (number.isNaN) {
       return lookupFDashLocalizations(locale).validatorNan;
     }
 

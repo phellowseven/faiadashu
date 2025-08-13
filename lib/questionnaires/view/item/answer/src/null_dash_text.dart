@@ -8,11 +8,11 @@ class NullDashText extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       '   ',
-      style: Theme.of(context).textTheme.bodyText2?.copyWith(
+      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
             decoration: TextDecoration.lineThrough,
             color: Theme.of(context)
                 .textTheme
-                .bodyText2!
+                .bodyMedium!
                 .color!
                 .withOpacity(variant600Opacity),
           ),
