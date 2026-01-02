@@ -376,8 +376,8 @@ class QuestionnaireThemeData {
             padding: const EdgeInsets.only(top: 4.0),
             child: Text(
               errorText,
-              style: Theme.of(context).textTheme.subtitle1!.copyWith(
-                    color: Theme.of(context).errorColor,
+              style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                    color: Theme.of(context).colorScheme.error,
                   ),
             ),
           ),
@@ -417,8 +417,8 @@ class QuestionnaireThemeData {
           errorText,
           style: Theme.of(context)
               .textTheme
-              .caption
-              ?.copyWith(color: Theme.of(context).errorColor),
+              .bodySmall
+              ?.copyWith(color: Theme.of(context).colorScheme.error),
         ),
       ],
     );

@@ -47,7 +47,7 @@ class QuestionnaireLoadingIndicator extends StatelessWidget {
           if (detail != null)
             Text(
               detail.toString(),
-              style: Theme.of(context).textTheme.subtitle1,
+              style: Theme.of(context).textTheme.titleMedium,
             ),
         ],
       ),

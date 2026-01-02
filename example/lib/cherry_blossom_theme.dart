@@ -101,7 +101,7 @@ class CherryBlossomScaffoldBuilder extends QuestionnairePageScaffoldBuilder {
                 padding: const EdgeInsets.symmetric(vertical: 8),
                 child: Text(
                   '🦄🌸🦄🌸🦄🌸🦄',
-                  style: Theme.of(context).textTheme.headline4,
+                  style: Theme.of(context).textTheme.headlineMedium,
                 ),
               ),
               Expanded(

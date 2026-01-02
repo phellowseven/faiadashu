@@ -35,7 +35,7 @@ class BrokenQuestionnaireItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      color: Theme.of(context).errorColor,
+      color: Theme.of(context).colorScheme.error,
       child: Container(
         padding: const EdgeInsets.all(8),
         child: Column(
@@ -44,13 +44,13 @@ class BrokenQuestionnaireItem extends StatelessWidget {
             if (cause != null)
               SelectableText(
                 cause.toString(),
-                style: Theme.of(context).textTheme.headline6?.copyWith(
+                style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                       color: Theme.of(context).cardColor,
                     ),
               ),
             SelectableText(
               message,
-              style: Theme.of(context).textTheme.subtitle1?.copyWith(
+              style: Theme.of(context).textTheme.titleMedium?.copyWith(
                     color: Colors.yellow,
                   ),
             ),

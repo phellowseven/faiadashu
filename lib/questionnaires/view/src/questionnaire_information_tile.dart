@@ -13,7 +13,7 @@ class QuestionnaireInformationTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final defaultTextStyle = Theme.of(context).textTheme.subtitle1;
+    final defaultTextStyle = Theme.of(context).textTheme.titleMedium;
 
     return Column(
       children: [

@@ -48,7 +48,7 @@ class _BooleanInputControl extends AnswerInputControl<BooleanAnswerModel> {
               ? answerModel.value?.value
               : (answerModel.value?.value != null),
           activeColor: (answerModel.displayErrorText != null)
-              ? Theme.of(context).errorColor
+              ? Theme.of(context).colorScheme.error
               : null,
           tristate: answerModel.isTriState,
           onChanged: (answerModel.isControlEnabled)
@@ -67,8 +67,8 @@ class _BooleanInputControl extends AnswerInputControl<BooleanAnswerModel> {
             answerModel.displayErrorText!,
             style: Theme.of(context)
                 .textTheme
-                .caption!
-                .copyWith(color: Theme.of(context).errorColor),
+                .bodySmall!
+                .copyWith(color: Theme.of(context).colorScheme.error),
           ),
       ],
     );
