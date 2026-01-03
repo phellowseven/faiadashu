@@ -6,22 +6,22 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:intl/intl.dart' as intl;
 
-import 'fdash_localizations_ar.dart';
-import 'fdash_localizations_de.dart';
-import 'fdash_localizations_en.dart';
-import 'fdash_localizations_fr.dart';
-import 'fdash_localizations_it.dart';
-import 'fdash_localizations_es.dart';
-import 'fdash_localizations_ja.dart';
+import 'fdash_localizations_ar.g.dart';
+import 'fdash_localizations_de.g.dart';
+import 'fdash_localizations_en.g.dart';
+import 'fdash_localizations_es.g.dart';
+import 'fdash_localizations_ja.g.dart';
 
-/// Callers can lookup localized strings with an instance of FDashLocalizations returned
-/// by `FDashLocalizations.of(context)`.
+// ignore_for_file: type=lint
+
+/// Callers can lookup localized strings with an instance of FDashLocalizations
+/// returned by `FDashLocalizations.of(context)`.
 ///
 /// Applications need to include `FDashLocalizations.delegate()` in their app's
-/// localizationDelegates list, and the locales they support in the app's
-/// supportedLocales list. For example:
+/// `localizationDelegates` list, and the locales they support in the app's
+/// `supportedLocales` list. For example:
 ///
-/// ```
+/// ```dart
 /// import 'src/fdash_localizations.g.dart';
 ///
 /// return MaterialApp(
@@ -36,14 +36,14 @@ import 'fdash_localizations_ja.dart';
 /// Please make sure to update your pubspec.yaml to include the following
 /// packages:
 ///
-/// ```
+/// ```yaml
 /// dependencies:
 ///   # Internationalization support.
 ///   flutter_localizations:
 ///     sdk: flutter
 ///   intl: any # Use the pinned version from flutter_localizations
 ///
-///   # rest of dependencies
+///   # Rest of dependencies
 /// ```
 ///
 /// ## iOS Applications
@@ -101,8 +101,6 @@ abstract class FDashLocalizations {
     Locale('en'),
     Locale('ar'),
     Locale('de'),
-    Locale('fr'),
-    Locale('it'),
     Locale('es'),
     Locale('ja')
   ];
@@ -117,13 +115,13 @@ abstract class FDashLocalizations {
   ///
   /// In en, this message translates to:
   /// **'{minLength, plural, =1 {Enter at least one character.} other {Enter at least {minLength} characters.}}'**
-  String validatorMinLength(int minLength);
+  String validatorMinLength(num minLength);
 
   /// No description provided for @validatorMaxLength.
   ///
   /// In en, this message translates to:
   /// **'{maxLength, plural, other{Enter up to {maxLength} characters.}}'**
-  String validatorMaxLength(int maxLength);
+  String validatorMaxLength(num maxLength);
 
   /// No description provided for @validatorUrl.
   ///
@@ -213,13 +211,13 @@ abstract class FDashLocalizations {
   ///
   /// In en, this message translates to:
   /// **'{minOccurs, plural, =1 {Select at least one option.} other {Select {minOccurs} or more options.}}'**
-  String validatorMinOccurs(int minOccurs);
+  String validatorMinOccurs(num minOccurs);
 
   /// No description provided for @validatorMaxOccurs.
   ///
   /// In en, this message translates to:
   /// **'{maxOccurs, plural, =1 {Select up to one option.} other {Select up to {maxOccurs} options.}}'**
-  String validatorMaxOccurs(int maxOccurs);
+  String validatorMaxOccurs(num maxOccurs);
 
   /// No description provided for @validatorSingleSelectionOrSingleOpenString.
   ///
@@ -237,7 +235,7 @@ abstract class FDashLocalizations {
   ///
   /// In en, this message translates to:
   /// **'Select a file of the following types: {mimeTypes}.'**
-  String validatorMimeTypes(String mimeTypes);
+  String validatorMimeTypes(Object mimeTypes);
 
   /// No description provided for @dataAbsentReasonAskedDeclinedInputLabel.
   ///
@@ -389,15 +387,8 @@ class _FDashLocalizationsDelegate
   }
 
   @override
-  bool isSupported(Locale locale) => <String>[
-        'ar',
-        'de',
-        'en',
-        'fr',
-        'it',
-        'es',
-        'ja'
-      ].contains(locale.languageCode);
+  bool isSupported(Locale locale) =>
+      <String>['ar', 'de', 'en', 'es', 'ja'].contains(locale.languageCode);
 
   @override
   bool shouldReload(_FDashLocalizationsDelegate old) => false;
@@ -412,10 +403,6 @@ FDashLocalizations lookupFDashLocalizations(Locale locale) {
       return FDashLocalizationsDe();
     case 'en':
       return FDashLocalizationsEn();
-    case 'fr':
-      return FDashLocalizationsFr();
-    case 'it':
-      return FDashLocalizationsIt();
     case 'es':
       return FDashLocalizationsEs();
     case 'ja':
